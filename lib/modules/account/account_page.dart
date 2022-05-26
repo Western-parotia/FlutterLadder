@@ -45,24 +45,100 @@ class _MenusWidget extends StatelessWidget {
     );
   }
 
-  List<Widget> _menus(){
-    var iconColor = Colors.red;
-
+  List<Widget> _menus() {
     final lws = <Widget>[];
-    for(int i = 0;i<100;i++){
-      lws.add(ListTile(
-        title: Text("title:$i"),
-        onTap: ()=>{
-
-        },
-        leading: Icon(
-          Icons.settings,
-          color: iconColor,
-        ),
-        trailing: const Icon(Icons.chevron_right),
-      ));
+    for (int i = 0; i < 100; i++) {
+      lws.add(_createMenu(i));
     }
     return lws;
   }
-}
 
+  Widget _createMenu(int index) {
+    var iconColor = Colors.deepPurpleAccent;
+    late ListTile? listTile;
+    switch (index) {
+      case 0:
+        listTile = ListTile(
+          title: const Text("收藏"),
+          onTap: () => {
+
+          },
+          leading: Icon(
+            Icons.favorite_border,
+            color: iconColor,
+          ),
+          trailing: const Icon(Icons.chevron_right),
+        );
+        break;
+      case 1:
+        listTile = ListTile(
+          title: const Text("黑夜模式"),
+          onTap: () => {
+
+          },
+          leading: Icon(
+            Icons.dark_mode,
+            color: iconColor,
+          ),
+          trailing: Switch(
+            value:false ,
+            onChanged: (v) =>{
+
+            },
+          ),
+        );
+        break;
+      case 2:
+        listTile = ListTile(
+          title: const Text("彩色主题"),
+          onTap: () => {
+
+          },
+          leading: Icon(
+            Icons.color_lens,
+            color: iconColor,
+          ),
+          trailing: const Icon(Icons.chevron_right),
+        );
+        break;
+      case 3:
+        listTile = ListTile(
+          title: const Text("设置"),
+          onTap: () => {
+
+          },
+          leading: Icon(
+            Icons.settings,
+            color: iconColor,
+          ),
+          trailing: const Icon(Icons.chevron_right),
+        );
+        break;
+      case 4:
+        listTile = ListTile(
+          title: const Text("检查更新"),
+          onTap: () => {
+
+          },
+          leading: Icon(
+            Icons.install_mobile,
+            color: iconColor,
+          ),
+          trailing: const Icon(Icons.chevron_right),
+        );
+        break;
+      default:
+        listTile = ListTile(
+          title: Text("title:$index"),
+          onTap: () => {},
+          leading: Icon(
+            Icons.animation,
+            color: iconColor,
+          ),
+          trailing: const Icon(Icons.chevron_right),
+        );
+    }
+
+    return listTile;
+  }
+}
