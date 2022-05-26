@@ -1,4 +1,9 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
+import 'package:wanandroid_app/modules/home/model/article_model.dart';
+import 'package:wanandroid_app/modules/home/model/banner_model.dart';
+import 'package:wanandroid_app/modules/home/widget/article_item_widget.dart';
+import 'package:wanandroid_app/modules/home/widget/banner_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -8,10 +13,125 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List<BannerModel> _bannerList = [];
+  List<ArticleModel> _topArticleList = [];
+  List<ArticleModel> _articleList = [];
+  // 这里直接使用dio请求banner等数据，不做任何空值等特殊处理的封装，实际项目中可使用公共处理的网络请求
+  // 也可以创建独立处理请求viewModel做数据请求等
+
+  // 获取banner数据
+  getBannerData() async {
+    String url = 'https://www.wanandroid.com/banner/json';
+    try {
+      Response response = await Dio().get(url);
+      _bannerList = response.data['data']
+          .map<BannerModel>((item) => BannerModel.fromJsonMapToModel(item))
+          .toList();
+      setState(() {});
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  // 置顶文章
+  getTopArticlesData() async {
+    String url = 'https://www.wanandroid.com/article/top/json';
+    try {
+      Response response = await Dio().get(url);
+      _topArticleList = response.data['data']
+          .map<ArticleModel>((item) => ArticleModel().fromJsonMapToModel(item))
+          .toList();
+      setState(() {});
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  // 文章，目前不做分页加载
+  getArticlesData() async {
+    String url = 'https://www.wanandroid.com/article/list/0/json';
+    try {
+      Response response = await Dio().get(url);
+      _articleList = response.data['data']['datas']
+          .map<ArticleModel>((item) => ArticleModel().fromJsonMapToModel(item))
+          .toList();
+      setState(() {});
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    getBannerData();
+    getTopArticlesData();
+    getArticlesData();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('首页'),
-    );
+    return Scaffold(
+        body: MediaQuery.removePadding(
+          context: context,
+          child: CustomScrollView(
+            // sliver是特殊用途的小部件，可以使用CustomScrollView组合来创建自定义滚动效果
+            slivers: [
+              //const SliverToBoxAdapter(), //SliverToBoxAdapter 单一小部件，这里去掉之后SliverAppBar固定
+              SliverAppBar(
+                pinned: true,
+                expandedHeight: 200.0,
+                backgroundColor: Colors.blue,
+                centerTitle: true,
+                flexibleSpace: FlexibleSpaceBar(
+                  background: _bannerList.isEmpty
+                      ? Container()
+                      : BannerWidget(_bannerList),
+                ),
+                actions: [
+                  // IconButton(
+                  //   icon: const Icon(Icons.search),
+                  //   onPressed: () {},
+                  // )
+                ],
+              ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                    ArticleModel item = _topArticleList[index];
+                    return ArticleItemWidget(
+                      model: item,
+                      index: index,
+                      isTopArt: true,
+                    );
+                  },
+                  childCount: _topArticleList.length,
+                ),
+              ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    ArticleModel item = _articleList[index];
+                    return ArticleItemWidget(
+                      model: item,
+                      index: index,
+                    );
+                  },
+                  childCount: _articleList.length,
+                ),
+              )
+            ],
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          heroTag: 'homeFab',
+          //key: const ValueKey(Icons.search),
+          onPressed: () {},
+          child: const Icon(
+            Icons.search,
+          ),
+        ));
   }
 }
