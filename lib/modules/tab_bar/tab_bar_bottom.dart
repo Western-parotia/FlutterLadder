@@ -15,11 +15,11 @@ class TabBarBottom extends StatefulWidget {
 
 class _TabBarBottomState extends State<TabBarBottom> {
   List<Widget> pages = <Widget>[
-    HomePage(),
-    ProjectPage(),
-    WechatAccountPage(),
-    StructurePage(),
-    AccountPage()
+    const HomePage(),
+    const ProjectPage(),
+    const WechatAccountPage(),
+    const StructurePage(),
+    const AccountPage()
   ];
   late PageController _pageController;
   int _selectedIndex = 0;
