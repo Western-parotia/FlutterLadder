@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AccountPage extends StatefulWidget {
@@ -13,19 +12,20 @@ class _AccountPageState extends State<AccountPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
+        physics:const BouncingScrollPhysics(),
         slivers: <Widget>[
           SliverAppBar(
-            actions: <Widget>[
-              Container(
-                child: const Text("我的"),
-              )
+            title: const Center(
+              child: Text("我的"),
+            ),
+            actions:  <Widget>[
+              // IconButton(onPressed: ()=>{},
+              //     icon: const Icon(Icons.exit_to_app))
             ],
             backgroundColor: Colors.deepOrange,
             expandedHeight: 200 + MediaQuery.of(context).padding.top,
             pinned: true,
-            flexibleSpace: Container(
-              color: Colors.amber,
-            ),
+            flexibleSpace:_HeaderWidget()
           ),
           _MenusWidget()
         ],
@@ -33,6 +33,18 @@ class _AccountPageState extends State<AccountPage> {
     );
   }
 }
+
+class _HeaderWidget extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    return ClipPath(
+      child:Container(color: Colors.amber)
+    );
+  }
+
+}
+
+
 
 class _MenusWidget extends StatelessWidget {
   @override
