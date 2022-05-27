@@ -43,14 +43,10 @@ class _HeaderWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           ClipOval(
-              child: Image.asset(
-            ImagesPath.wrapLocalImage("user_avatar.png"),
-            fit: BoxFit.cover,
-            colorBlendMode: BlendMode.colorDodge,
-            width: 80,
-            height: 80,
-            color: Colors.deepPurpleAccent,
-          )),
+              child: Hero(
+                tag: "_logo",
+                child: _logoElement(),
+              )),
           Container(
             padding: const EdgeInsets.only(top: 20),
             child: InkWell(
@@ -74,22 +70,51 @@ class _HeaderWidget extends StatelessWidget {
     //    builder:(_) =>LoginWidget() ,
     // ));
     Navigator.of(context)
-        .push(MaterialPageRoute<void>(builder: (_) => LoginWidget()));
+        .push(MaterialPageRoute<void>(builder: (_) => const LoginWidget()));
   }
 }
-
+Widget _logoElement(){
+  return Image.asset(
+    ImagesPath.wrapLocalImage("user_avatar.png"),
+    fit: BoxFit.cover,
+    colorBlendMode: BlendMode.colorDodge,
+    width: 80,
+    height: 80,
+    color: Colors.deepPurpleAccent,
+  );
+}
 class LoginWidget extends StatelessWidget {
   const LoginWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 50,
-      height: 60,
-      color: Colors.deepOrange,
-      child: const Center(
-        child: Text("login"),
-      ),
+    return Stack(
+      children: <Widget>[
+        Flex(direction: Axis.vertical,
+          children:  <Widget>[
+            Expanded(
+              flex: 1,
+                child: Container(
+              color: Colors.deepOrange,
+            )),
+            Expanded(
+                flex: 1,
+                child: Container(
+                  color: Colors.amber,
+                )),
+          ],
+        ),
+        Column(
+          children: <Widget>[
+            Container(
+              color: Colors.deepPurple,
+              height: 200,
+            ),
+          ],
+
+        )
+      ],
+
     );
   }
 }
