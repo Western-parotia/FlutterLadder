@@ -17,17 +17,14 @@ class _AccountPageState extends State<AccountPage> {
         physics: const BouncingScrollPhysics(),
         slivers: <Widget>[
           SliverAppBar(
-              title: const Center(
-                child: Text("我的"),
-              ),
-              actions: <Widget>[
-                // IconButton(onPressed: ()=>{},
-                //     icon: const Icon(Icons.exit_to_app))
-              ],
               backgroundColor: Colors.deepOrange,
-              expandedHeight: 200 + MediaQuery.of(context).padding.top,
-              pinned: true,
-              flexibleSpace: _HeaderWidget()),
+              expandedHeight: 240,
+              pinned: false,
+              flexibleSpace: FlexibleSpaceBar(
+              collapseMode: CollapseMode.parallax,
+                background: _HeaderWidget(),
+              )
+          ),
           _MenusWidget()
         ],
       ),
@@ -38,30 +35,39 @@ class _AccountPageState extends State<AccountPage> {
 class _HeaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return  Container(
-            color: Colors.amber,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                Image.asset(
-                  ImagesPath.wrapLocalImage("user_avatar.png"),
-                  fit: BoxFit.cover,
-                  colorBlendMode: BlendMode.colorDodge,
-                  width: 80,
-                  height: 80,
-                  color: Colors.deepPurpleAccent,
-                ),
-                InkWell(
-                  onTap: () => _gotoLoginPage(context),
-                  child: const Text("点击登录"),
-                )
-                ],
+    return Container(
+      color: Colors.deepPurple,
+      padding: const EdgeInsets.only(top: 40),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          ClipOval(
+              child: Image.asset(
+            ImagesPath.wrapLocalImage("user_avatar.png"),
+            fit: BoxFit.cover,
+            colorBlendMode: BlendMode.colorDodge,
+            width: 80,
+            height: 80,
+            color: Colors.deepPurpleAccent,
+          )),
+          Container(
+            padding: const EdgeInsets.only(top: 20),
+            child: InkWell(
+              onTap: () => _gotoLoginPage(context),
+              child: const Text(
+                "点击登录",
+                style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w800),
               ),
-
-            );
+            ),
+          )
+        ],
+      ),
+    );
   }
-
 
   void _gotoLoginPage(BuildContext context) {
     // Navigator.of(context).push(CupertinoPageRoute(
