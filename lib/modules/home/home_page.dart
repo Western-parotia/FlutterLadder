@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:wanandroid_app/modules/home/model/article_model.dart';
@@ -12,7 +13,12 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with ChangeNotifier {
+  final double _expandedHeight = 200;
+  final ScrollController _scrollController = ScrollController();
+  //监听scroll滚动 是否显示naviBar  ValueNotifier 监听单个变量值或类
+  final ValueNotifier _valueNotifier = ValueNotifier<bool>(false);
+
   List<BannerModel> _bannerList = [];
   List<ArticleModel> _topArticleList = [];
   List<ArticleModel> _articleList = [];
@@ -61,11 +67,28 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  // 滚动监听
+  scrollAddListener() {
+    _scrollController.addListener(() {
+      if (_scrollController.offset >
+              _expandedHeight - MediaQueryData.fromWindow(window).padding.top &&
+          !_valueNotifier.value) {
+        _valueNotifier.value = true;
+        notifyListeners();
+      } else if (_scrollController.offset <
+              _expandedHeight - MediaQueryData.fromWindow(window).padding.top &&
+          _valueNotifier.value) {
+        _valueNotifier.value = false;
+        notifyListeners();
+      }
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
+    scrollAddListener();
     getBannerData();
     getTopArticlesData();
     getArticlesData();
@@ -74,64 +97,90 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: MediaQuery.removePadding(
-          context: context,
-          child: CustomScrollView(
-            // sliver是特殊用途的小部件，可以使用CustomScrollView组合来创建自定义滚动效果
-            slivers: [
-              //const SliverToBoxAdapter(), //SliverToBoxAdapter 单一小部件，这里去掉之后SliverAppBar固定
-              SliverAppBar(
-                pinned: true,
-                expandedHeight: 200.0,
-                backgroundColor: Colors.blue,
-                centerTitle: true,
-                flexibleSpace: FlexibleSpaceBar(
-                  background: _bannerList.isEmpty
-                      ? Container()
-                      : BannerWidget(_bannerList),
-                ),
-                actions: [
-                  // IconButton(
-                  //   icon: const Icon(Icons.search),
-                  //   onPressed: () {},
-                  // )
-                ],
+      body: MediaQuery.removePadding(
+        context: context,
+        child: CustomScrollView(
+          controller: _scrollController,
+          // sliver是特殊用途的小部件，可以使用CustomScrollView组合来创建自定义滚动效果
+          slivers: [
+            //const SliverToBoxAdapter(), //SliverToBoxAdapter 单一小部件，这里去掉之后SliverAppBar固定
+            ValueListenableBuilder(
+                valueListenable: _valueNotifier,
+                builder: (context, value, _) {
+                  return SliverAppBar(
+                    pinned: true,
+                    expandedHeight: _expandedHeight,
+                    backgroundColor: value == true ? Colors.blue : Colors.white,
+                    centerTitle: true,
+                    flexibleSpace: FlexibleSpaceBar(
+                      background: _bannerList.isEmpty
+                          ? Container()
+                          : BannerWidget(_bannerList),
+                      title:
+                          value == true ? const Text('Flutter') : Container(),
+                    ),
+                    actions: [
+                      value == true
+                          ? IconButton(
+                              icon: const Icon(Icons.search),
+                              onPressed: () {},
+                            )
+                          : const SizedBox()
+                    ],
+                  );
+                }),
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (BuildContext context, int index) {
+                  ArticleModel item = _topArticleList[index];
+                  return ArticleItemWidget(
+                    model: item,
+                    index: index,
+                    isTopArt: true,
+                  );
+                },
+                childCount: _topArticleList.length,
               ),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                    ArticleModel item = _topArticleList[index];
-                    return ArticleItemWidget(
-                      model: item,
-                      index: index,
-                      isTopArt: true,
-                    );
-                  },
-                  childCount: _topArticleList.length,
-                ),
+            ),
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  ArticleModel item = _articleList[index];
+                  return ArticleItemWidget(
+                    model: item,
+                    index: index,
+                  );
+                },
+                childCount: _articleList.length,
               ),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    ArticleModel item = _articleList[index];
-                    return ArticleItemWidget(
-                      model: item,
-                      index: index,
-                    );
-                  },
-                  childCount: _articleList.length,
-                ),
-              )
-            ],
-          ),
+            )
+          ],
         ),
-        floatingActionButton: FloatingActionButton(
-          heroTag: 'homeFab',
-          //key: const ValueKey(Icons.search),
-          onPressed: () {},
-          child: const Icon(
-            Icons.search,
-          ),
-        ));
+      ),
+      floatingActionButton: FloatingActionButton(
+        heroTag: 'homeFab',
+        onPressed: () {
+          if (_valueNotifier.value == true) {
+            _scrollController.animateTo(0,
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeOutCubic);
+          } else {
+            // 搜索事件
+          }
+        },
+        child: ValueListenableBuilder(
+          valueListenable: _valueNotifier,
+          builder: (context, value, _) {
+            return value == true
+                ? const Icon(
+                    Icons.vertical_align_top,
+                  )
+                : const Icon(
+                    Icons.search,
+                  );
+          },
+        ),
+      ),
+    );
   }
 }
