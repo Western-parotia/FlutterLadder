@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../global/images_path.dart';
+
 class AccountPage extends StatefulWidget {
   const AccountPage({Key? key}) : super(key: key);
 
@@ -12,21 +14,20 @@ class _AccountPageState extends State<AccountPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
-        physics:const BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         slivers: <Widget>[
           SliverAppBar(
-            title: const Center(
-              child: Text("我的"),
-            ),
-            actions:  <Widget>[
-              // IconButton(onPressed: ()=>{},
-              //     icon: const Icon(Icons.exit_to_app))
-            ],
-            backgroundColor: Colors.deepOrange,
-            expandedHeight: 200 + MediaQuery.of(context).padding.top,
-            pinned: true,
-            flexibleSpace:_HeaderWidget()
-          ),
+              title: const Center(
+                child: Text("我的"),
+              ),
+              actions: <Widget>[
+                // IconButton(onPressed: ()=>{},
+                //     icon: const Icon(Icons.exit_to_app))
+              ],
+              backgroundColor: Colors.deepOrange,
+              expandedHeight: 200 + MediaQuery.of(context).padding.top,
+              pinned: true,
+              flexibleSpace: _HeaderWidget()),
           _MenusWidget()
         ],
       ),
@@ -34,17 +35,58 @@ class _AccountPageState extends State<AccountPage> {
   }
 }
 
-class _HeaderWidget extends StatelessWidget{
+class _HeaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ClipPath(
-      child:Container(color: Colors.amber)
-    );
+    return  Container(
+            color: Colors.amber,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                Image.asset(
+                  ImagesPath.wrapLocalImage("user_avatar.png"),
+                  fit: BoxFit.cover,
+                  colorBlendMode: BlendMode.colorDodge,
+                  width: 80,
+                  height: 80,
+                  color: Colors.deepPurpleAccent,
+                ),
+                InkWell(
+                  onTap: () => _gotoLoginPage(context),
+                  child: const Text("点击登录"),
+                )
+                ],
+              ),
+
+            );
   }
 
+
+  void _gotoLoginPage(BuildContext context) {
+    // Navigator.of(context).push(CupertinoPageRoute(
+    //    builder:(_) =>LoginWidget() ,
+    // ));
+    Navigator.of(context)
+        .push(MaterialPageRoute<void>(builder: (_) => LoginWidget()));
+  }
 }
 
+class LoginWidget extends StatelessWidget {
+  const LoginWidget({Key? key}) : super(key: key);
 
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 50,
+      height: 60,
+      color: Colors.deepOrange,
+      child: const Center(
+        child: Text("login"),
+      ),
+    );
+  }
+}
 
 class _MenusWidget extends StatelessWidget {
   @override
@@ -72,9 +114,7 @@ class _MenusWidget extends StatelessWidget {
       case 0:
         listTile = ListTile(
           title: const Text("收藏"),
-          onTap: () => {
-
-          },
+          onTap: () => {},
           leading: Icon(
             Icons.favorite_border,
             color: iconColor,
@@ -85,27 +125,21 @@ class _MenusWidget extends StatelessWidget {
       case 1:
         listTile = ListTile(
           title: const Text("黑夜模式"),
-          onTap: () => {
-
-          },
+          onTap: () => {},
           leading: Icon(
             Icons.dark_mode,
             color: iconColor,
           ),
           trailing: Switch(
-            value:false ,
-            onChanged: (v) =>{
-
-            },
+            value: false,
+            onChanged: (v) => {},
           ),
         );
         break;
       case 2:
         listTile = ListTile(
           title: const Text("彩色主题"),
-          onTap: () => {
-
-          },
+          onTap: () => {},
           leading: Icon(
             Icons.color_lens,
             color: iconColor,
@@ -116,9 +150,7 @@ class _MenusWidget extends StatelessWidget {
       case 3:
         listTile = ListTile(
           title: const Text("设置"),
-          onTap: () => {
-
-          },
+          onTap: () => {},
           leading: Icon(
             Icons.settings,
             color: iconColor,
@@ -129,9 +161,7 @@ class _MenusWidget extends StatelessWidget {
       case 4:
         listTile = ListTile(
           title: const Text("检查更新"),
-          onTap: () => {
-
-          },
+          onTap: () => {},
           leading: Icon(
             Icons.install_mobile,
             color: iconColor,

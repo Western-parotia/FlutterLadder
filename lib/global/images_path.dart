@@ -3,6 +3,9 @@
 class ImagesPath {
   const ImagesPath._();
 
-  /// ![preview](file://D:\xxx\xxx\assets\images\baseline_arrow_upward_white_24dp.png)
-  static const String navBackGray = 'images/common/sl_nav_back_gray.png';
+  static String wrapLocalImage(String name) {
+    return "assets/images/"+name;
+  }
+
+  static String navBackGray = wrapLocalImage("sl_nav_back_gray.png");
 }
