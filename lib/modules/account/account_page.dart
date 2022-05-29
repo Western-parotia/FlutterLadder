@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../global/images_path.dart';
+import '../login/login_page.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({Key? key}) : super(key: key);
@@ -70,7 +71,7 @@ class _HeaderWidget extends StatelessWidget {
     //    builder:(_) =>LoginWidget() ,
     // ));
     Navigator.of(context)
-        .push(MaterialPageRoute<void>(builder: (_) => const LoginWidget()));
+        .push(MaterialPageRoute<void>(builder: (_) => const LoginPage()));
   }
 }
 Widget _logoElement(){
@@ -83,42 +84,6 @@ Widget _logoElement(){
     color: Colors.deepPurpleAccent,
   );
 }
-class LoginWidget extends StatelessWidget {
-  const LoginWidget({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        Flex(direction: Axis.vertical,
-          children:  <Widget>[
-            Expanded(
-              flex: 1,
-                child: Container(
-              color: Colors.deepOrange,
-            )),
-            Expanded(
-                flex: 1,
-                child: Container(
-                  color: Colors.amber,
-                )),
-          ],
-        ),
-        Column(
-          children: <Widget>[
-            Container(
-              color: Colors.deepPurple,
-              height: 200,
-            ),
-          ],
-
-        )
-      ],
-
-    );
-  }
-}
-
 class _MenusWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
