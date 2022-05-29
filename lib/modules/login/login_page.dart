@@ -11,6 +11,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+ static const double ROW_GAP = 40;
+
   @override
   Widget build(BuildContext context) {
     final titleBarHeight = 56 + MediaQuery.of(context).padding.top;
@@ -75,6 +78,9 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
+            const SizedBox(
+              height: ROW_GAP,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -102,7 +108,23 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ],
-            )
+            ),
+            const SizedBox(
+              height: ROW_GAP,
+            ),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+              InkWell(
+                onTap: () => {},
+                child: AssetsUtils.loadImageWH("logo_wechat.png", 40, 40),
+              ),
+              const SizedBox(
+                width: 100,
+              ),
+              InkWell(
+                onTap: () => {},
+                child: AssetsUtils.loadImageWH("logo_weibo.png", 40, 40),
+              ),
+            ])
           ],
         )
       ],
