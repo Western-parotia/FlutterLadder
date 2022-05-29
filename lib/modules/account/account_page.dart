@@ -22,10 +22,9 @@ class _AccountPageState extends State<AccountPage> {
               expandedHeight: 240,
               pinned: false,
               flexibleSpace: FlexibleSpaceBar(
-              collapseMode: CollapseMode.parallax,
+                collapseMode: CollapseMode.parallax,
                 background: _HeaderWidget(),
-              )
-          ),
+              )),
           _MenusWidget()
         ],
       ),
@@ -43,11 +42,7 @@ class _HeaderWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          ClipOval(
-              child: Hero(
-                tag: "_logo",
-                child: _logoElement(),
-              )),
+          Hero(tag: "_logo", child: ClipOval(child: _logoElement())),
           Container(
             padding: const EdgeInsets.only(top: 20),
             child: InkWell(
@@ -74,16 +69,18 @@ class _HeaderWidget extends StatelessWidget {
         .push(MaterialPageRoute<void>(builder: (_) => const LoginPage()));
   }
 }
-Widget _logoElement(){
+
+Widget _logoElement() {
   return Image.asset(
     ImagesPath.wrapLocalImage("user_avatar.png"),
     fit: BoxFit.cover,
-    colorBlendMode: BlendMode.colorDodge,
+    colorBlendMode: BlendMode.dstIn,
     width: 80,
     height: 80,
-    color: Colors.deepPurpleAccent,
+    color: Colors.lightBlue,
   );
 }
+
 class _MenusWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
