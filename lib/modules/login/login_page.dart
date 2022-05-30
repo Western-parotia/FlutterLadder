@@ -80,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
             Container(
                 // color: Colors.amber, // color 与 decoration 互斥
                 margin: const EdgeInsets.symmetric(horizontal: 30),
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.all(20),
                 decoration: createCardDecoration(context),
                 child: _LoginWidget()),
             const SizedBox(
@@ -166,15 +166,15 @@ class _LoginState extends State<_LoginWidget> {
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
-      children: const <Widget>[
-        TextField(
+      children: <Widget>[
+        const TextField(
           decoration: InputDecoration(
             label: Text("用户名"),
             prefixIcon: Icon(Icons.person, color: Colors.blue, size: 20),
             suffixIcon: Icon(Icons.close, color: Colors.grey, size: 20),
           ),
         ),
-        TextField(
+        const TextField(
           decoration: InputDecoration(
             label: Text("密码"),
             hintText: "6-18位",
@@ -184,6 +184,38 @@ class _LoginState extends State<_LoginWidget> {
                 color: Colors.grey, size: 20),
           ),
         ),
+        InkWell(
+            onTap: () => {},
+            child: Container(
+              margin: const EdgeInsets.only(top: 50),
+              height: 50,
+              decoration: const ShapeDecoration(
+                  color: Colors.lightBlue,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(30)))),
+              child: const Center(
+                child: Text(
+                  "登录",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+              ),
+            )),
+        const SizedBox(height: 15),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+              const Text("还没有账号?",
+                  style: TextStyle(color: Colors.black45,
+                      fontSize: 15)),
+              InkWell(
+                onTap: ()=>{},
+                child: const Text("去注册",style: TextStyle(color: Colors.lightBlue,
+                    fontSize: 15)),
+              )
+            
+          ],
+        )
       ],
     );
   }
