@@ -18,13 +18,14 @@ class _AccountPageState extends State<AccountPage> {
         physics: const BouncingScrollPhysics(),
         slivers: <Widget>[
           SliverAppBar(
-              backgroundColor: Colors.deepOrange,
-              expandedHeight: 240,
-              pinned: false,
-              flexibleSpace: FlexibleSpaceBar(
-              collapseMode: CollapseMode.parallax,
-                background: _HeaderWidget(),
-              )
+            backgroundColor: Colors.deepOrange,
+            expandedHeight: 240,
+            pinned:
+                false, // 默认false 可以不设置  [floating], [pinned], [snap] 设置true、false，效果有所不同,可查看内部详情说明
+            flexibleSpace: FlexibleSpaceBar(
+              collapseMode: CollapseMode.parallax, // 默认parallax 可以不设置，滚动折叠时的效果
+              background: _HeaderWidget(),
+            ),
           ),
           _MenusWidget()
         ],
@@ -44,11 +45,13 @@ class _HeaderWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           ClipOval(
-              child: Hero(
-                tag: "_logo",
-                child: _logoElement(),
-              )),
+            child: Hero(
+              tag: "_logo",
+              child: _logoElement(),
+            ),
+          ),
           Container(
+            //这里也可以使用Padding，或者SizedBox(height: 20)加个间距
             padding: const EdgeInsets.only(top: 20),
             child: InkWell(
               onTap: () => _gotoLoginPage(context),
@@ -74,7 +77,8 @@ class _HeaderWidget extends StatelessWidget {
         .push(MaterialPageRoute<void>(builder: (_) => const LoginPage()));
   }
 }
-Widget _logoElement(){
+
+Widget _logoElement() {
   return Image.asset(
     ImagesPath.wrapLocalImage("user_avatar.png"),
     fit: BoxFit.cover,
@@ -84,6 +88,7 @@ Widget _logoElement(){
     color: Colors.deepPurpleAccent,
   );
 }
+
 class _MenusWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -103,6 +108,7 @@ class _MenusWidget extends StatelessWidget {
     return lws;
   }
 
+  //ListTile 可以做个封装传index 标题放入一个数组中根据index取值
   Widget _createMenu(int index) {
     var iconColor = Colors.deepPurpleAccent;
     late ListTile? listTile;
