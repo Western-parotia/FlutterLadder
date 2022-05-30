@@ -170,18 +170,20 @@ class _LoginState extends State<_LoginWidget> {
         TextField(
           decoration: InputDecoration(
             label: Text("用户名"),
-            hintText: "点击输入",
-            prefix: Icon(Icons.person, color: Colors.blue, size: 20),
+            prefixIcon: Icon(Icons.person, color: Colors.blue, size: 20),
+            suffixIcon: Icon(Icons.close, color: Colors.grey, size: 20),
           ),
         ),
         TextField(
           decoration: InputDecoration(
             label: Text("密码"),
-            hintText: "点击输入",
-            prefix: Icon(Icons.person, color: Colors.blue, size: 20),
+            hintText: "6-18位",
+            hintStyle: TextStyle(color: Colors.grey),
+            prefixIcon: Icon(Icons.lock, color: Colors.blue, size: 20),
+            suffixIcon: Icon(Icons.remove_red_eye_outlined,
+                color: Colors.grey, size: 20),
           ),
         ),
-
       ],
     );
   }
