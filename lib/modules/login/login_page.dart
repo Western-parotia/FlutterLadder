@@ -18,6 +18,8 @@ class _LoginPageState extends State<LoginPage> {
     final titleBarHeight = 56 + MediaQuery.of(context).padding.top;
 
     return Scaffold(
+      //避免键盘弹出时，出现布局溢出（也可使用滚动布局处理，与android 同理）
+      resizeToAvoidBottomInset: false,
         body: Stack(
       children: <Widget>[
         Flex(
