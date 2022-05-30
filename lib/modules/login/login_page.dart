@@ -11,8 +11,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
- static const double ROW_GAP = 40;
+  static const double ROW_GAP = 40;
 
   @override
   Widget build(BuildContext context) {
@@ -65,8 +64,8 @@ class _LoginPageState extends State<LoginPage> {
                     Hero(
                         tag: "_logo",
                         child: SizedBox(
-                          height: 130,
-                          width: 100,
+                          height: 150,
+                          width: 110,
                           child: Image.asset(
                             ImagesPath.wrapLocalImage("login_logo.png"),
                             colorBlendMode: BlendMode.srcIn,
@@ -76,6 +75,30 @@ class _LoginPageState extends State<LoginPage> {
                         )),
                   ],
                 ),
+              ),
+            ),
+            Container(
+              // color: Colors.amber, // color 与 decoration 互斥
+              margin: const EdgeInsets.symmetric(horizontal: 30),
+              decoration: ShapeDecoration(
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(0))),
+                  color: Theme.of(context).cardColor,
+                  shadows:  [
+                    BoxShadow(
+                        color: Theme.of(context).shadowColor.withAlpha(40),
+                        offset: const Offset(2.0, 2.0),
+                        blurRadius: 5,
+                        spreadRadius: 0)
+                  ]),
+              child: Column(
+                children: <Widget>[
+                  Container(color: Colors.lightGreenAccent, height: 40),
+                  Container(color: Colors.greenAccent, height: 40),
+                  Container(color: Colors.lightGreen, height: 40),
+
+                ],
+
               ),
             ),
             const SizedBox(
