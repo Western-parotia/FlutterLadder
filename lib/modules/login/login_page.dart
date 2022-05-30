@@ -78,29 +78,11 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             Container(
-              // color: Colors.amber, // color 与 decoration 互斥
-              margin: const EdgeInsets.symmetric(horizontal: 30),
-              decoration: ShapeDecoration(
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(0))),
-                  color: Theme.of(context).cardColor,
-                  shadows:  [
-                    BoxShadow(
-                        color: Theme.of(context).shadowColor.withAlpha(40),
-                        offset: const Offset(2.0, 2.0),
-                        blurRadius: 5,
-                        spreadRadius: 0)
-                  ]),
-              child: Column(
-                children: <Widget>[
-                  Container(color: Colors.lightGreenAccent, height: 40),
-                  Container(color: Colors.greenAccent, height: 40),
-                  Container(color: Colors.lightGreen, height: 40),
-
-                ],
-
-              ),
-            ),
+                // color: Colors.amber, // color 与 decoration 互斥
+                margin: const EdgeInsets.symmetric(horizontal: 30),
+                padding: const EdgeInsets.all(10),
+                decoration: createCardDecoration(context),
+                child: _LoginWidget()),
             const SizedBox(
               height: ROW_GAP,
             ),
@@ -152,5 +134,55 @@ class _LoginPageState extends State<LoginPage> {
         )
       ],
     ));
+  }
+}
+
+Decoration createCardDecoration(BuildContext context) {
+  return ShapeDecoration(
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(2))),
+      color: Theme.of(context).cardColor,
+      // color: Colors.deepPurpleAccent,
+      shadows: [
+        BoxShadow(
+            color: Theme.of(context).shadowColor.withAlpha(40),
+            // color: Colors.red,
+            offset: const Offset(2.0, 2.0),
+            blurRadius: 5,
+            spreadRadius: 0)
+      ]);
+}
+
+class _LoginWidget extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _LoginState();
+}
+
+class _LoginState extends State<_LoginWidget> {
+  var _name = "";
+  var _pwd = "";
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: const <Widget>[
+        TextField(
+          decoration: InputDecoration(
+            label: Text("用户名"),
+            hintText: "点击输入",
+            prefix: Icon(Icons.person, color: Colors.blue, size: 20),
+          ),
+        ),
+        TextField(
+          decoration: InputDecoration(
+            label: Text("密码"),
+            hintText: "点击输入",
+            prefix: Icon(Icons.person, color: Colors.blue, size: 20),
+          ),
+        ),
+
+      ],
+    );
   }
 }
