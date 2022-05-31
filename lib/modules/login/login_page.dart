@@ -41,24 +41,18 @@ class _LoginPageState extends State<LoginPage> {
             ),
             Column(
               children: <Widget>[
-                SizedBox(
-                  // 这里可以不使用SizedBox，直接设置Container中的height为titleBarHeight 即可
-                  // 关闭键
-                  height: titleBarHeight,
-                  child: Container(
+                Container(
+                 // 关闭键
+                    height: titleBarHeight,
                     padding: EdgeInsets.only(
                         top: MediaQuery.of(context).padding.top,
                         left: MediaQuery.of(context).padding.left),
                     color: Colors.black26,
-                    child: const Align(
-                      // 这里可以不使用Align，Container本身有alignment属性，直接设置Alignment.centerLeft即可
-                      alignment: Alignment.centerLeft,
-                      child: CloseButton(
+                    alignment: Alignment.centerLeft,
+                    child: const CloseButton(
                         color: Colors.white,
                       ),
-                    ),
                   ),
-                ),
                 Container(
                   // logo
                   padding: const EdgeInsets.only(top: 30),
