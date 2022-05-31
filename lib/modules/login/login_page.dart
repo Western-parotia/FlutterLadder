@@ -62,10 +62,8 @@ class _LoginPageState extends State<LoginPage> {
                 Container(
                   // logo
                   padding: const EdgeInsets.only(top: 30),
-                  child: Align(
-                    // 这里可以不使用Align，Container本身有alignment属性，直接设置Alignment.topCenter即可
-                    alignment: Alignment.topCenter,
-                    child: Column(
+                  alignment: Alignment.topCenter,
+                  child: Column(
                       children: <Widget>[
                         Hero(
                             tag: "_logo",
@@ -81,7 +79,6 @@ class _LoginPageState extends State<LoginPage> {
                             )),
                       ],
                     ),
-                  ),
                 ),
                 Container(
                     // color: Colors.amber, // color 与 decoration 互斥
