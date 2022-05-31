@@ -13,7 +13,7 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with ChangeNotifier {
+class _HomePageState extends State<HomePage> {
   final double _expandedHeight = 200;
   final ScrollController _scrollController = ScrollController();
   //监听scroll滚动 是否显示naviBar  ValueNotifier 监听单个变量值或类
@@ -74,12 +74,10 @@ class _HomePageState extends State<HomePage> with ChangeNotifier {
               _expandedHeight - MediaQueryData.fromWindow(window).padding.top &&
           !_valueNotifier.value) {
         _valueNotifier.value = true;
-        notifyListeners();
       } else if (_scrollController.offset <
               _expandedHeight - MediaQueryData.fromWindow(window).padding.top &&
           _valueNotifier.value) {
         _valueNotifier.value = false;
-        notifyListeners();
       }
     });
   }
