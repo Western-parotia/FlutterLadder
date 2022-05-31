@@ -11,7 +11,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  static const double ROW_GAP = 40;
+  static const double rowGap = 40;
 
   @override
   Widget build(BuildContext context) {
@@ -42,37 +42,37 @@ class _LoginPageState extends State<LoginPage> {
             Column(
               children: <Widget>[
                 Container(
-                 // 关闭键
-                    height: titleBarHeight,
-                    padding: EdgeInsets.only(
-                        top: MediaQuery.of(context).padding.top,
-                        left: MediaQuery.of(context).padding.left),
-                    color: Colors.black26,
-                    alignment: Alignment.centerLeft,
-                    child: const CloseButton(
-                        color: Colors.white,
-                      ),
+                  // 关闭键
+                  height: titleBarHeight,
+                  padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).padding.top,
+                      left: MediaQuery.of(context).padding.left),
+                  color: Colors.black26,
+                  alignment: Alignment.centerLeft,
+                  child: const CloseButton(
+                    color: Colors.white,
                   ),
+                ),
                 Container(
                   // logo
                   padding: const EdgeInsets.only(top: 30),
                   alignment: Alignment.topCenter,
                   child: Column(
-                      children: <Widget>[
-                        Hero(
-                            tag: "_logo",
-                            child: SizedBox(
-                              height: 150,
-                              width: 110,
-                              child: Image.asset(
-                                ImagesPath.wrapLocalImage("login_logo.png"),
-                                colorBlendMode: BlendMode.srcIn,
-                                fit: BoxFit.fitWidth,
-                                color: Colors.white,
-                              ),
-                            )),
-                      ],
-                    ),
+                    children: <Widget>[
+                      Hero(
+                          tag: "_logo",
+                          child: SizedBox(
+                            height: 150,
+                            width: 110,
+                            child: Image.asset(
+                              ImagesPath.wrapLocalImage("login_logo.png"),
+                              colorBlendMode: BlendMode.srcIn,
+                              fit: BoxFit.fitWidth,
+                              color: Colors.white,
+                            ),
+                          )),
+                    ],
+                  ),
                 ),
                 Container(
                     // color: Colors.amber, // color 与 decoration 互斥
@@ -81,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
                     decoration: createCardDecoration(context),
                     child: _LoginWidget()),
                 const SizedBox(
-                  height: ROW_GAP,
+                  height: rowGap,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -114,10 +114,10 @@ class _LoginPageState extends State<LoginPage> {
                   ],
                 ),
                 const SizedBox(
-                  height: ROW_GAP,
+                  height: rowGap,
                 ),
                 Row(
-                    // InkWell多个的情况可封装，一两个可直接写
+                  //Lulu: InkWell多个的情况可封装，一两个可直接写:Zhusw:下面是两个独立按钮
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       InkWell(
@@ -188,24 +188,22 @@ class _LoginState extends State<_LoginWidget> {
                 color: Colors.grey, size: 20),
           ),
         ),
+        const SizedBox(
+          height: 50,
+        ),
         InkWell(
-            // 这里可以先设置间距，在设置InkWell，否则点击上面的top 50也会触发点击事件
             onTap: () => {},
             child: Container(
-              margin: const EdgeInsets.only(top: 50),
-              height: 50,
-              decoration: const ShapeDecoration(
-                  color: Colors.lightBlue,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(30)))),
-              child: const Center(
-                // 可以不使用Center  Container本身的alignment属性即可
-                child: Text(
+                height: 50,
+                decoration: const ShapeDecoration(
+                    color: Colors.lightBlue,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(30)))),
+                alignment: Alignment.center,
+                child: const Text(
                   "登录",
                   style: TextStyle(color: Colors.white, fontSize: 20),
-                ),
-              ),
-            )),
+                ))),
         const SizedBox(height: 15),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
