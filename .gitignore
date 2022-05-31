@@ -60,3 +60,5 @@ ios/Runner.ipa
 
 .fvm/
 .vscode/
+ios/Podfile
+ios/Podfile.lock
