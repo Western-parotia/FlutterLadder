@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wanandroid_app/pages/navigator/main_navigator.dart';
 import 'package:wanandroid_app/routes/splash_page.dart';
 import 'package:wanandroid_app/common/color_list.dart';
 import 'package:wanandroid_app/test/testpage1.dart';
@@ -26,7 +27,9 @@ class WanAndroidAPP extends StatelessWidget {
           primaryColor: Colors.red,
           primaryColorDark: Colors.deepOrange,
           primaryColorLight: Colors.blue),
-      home: const SplashPage(),
+      home: HDMainNavigator(),
     );
   }
 }
+
+
