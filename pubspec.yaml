@@ -26,5 +26,7 @@ flutter:
   uses-material-design: true
   assets:
     - images/icon_flutter.png
-    - images/ic_arrow_right.png
+    - images/hd_arrow_right.png
+    - images/hd_gaoyuanyuan.jpg
+
 
