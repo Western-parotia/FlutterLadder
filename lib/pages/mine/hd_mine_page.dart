@@ -17,26 +17,47 @@ class HDMinePageState extends State<HDMinePage> {
       SliverAppBar (
       pinned: true, // 滑动到顶端时会固定住
       expandedHeight: 200.0,
-         // flexibleSpace:getTopContainer(),
       flexibleSpace: FlexibleSpaceBar(
         title: const Text(''),
-        background: getTopContainer(),
+        background: getTopHeader(),
       ),
       )],
     );
   }
 
-   Widget getTopContainer() {
+  // 顶部 headerView
+   Widget getTopHeader () {
     return Stack(
       alignment: Alignment.topCenter,
       children: [
         Positioned(top:0,left: 0,right: 0,bottom: 0,child: Image.asset(
-          "images/icon_flutter.png",
+          "images/hd_update_head.jpg",
           fit: BoxFit.cover,
         )),
-        Positioned(top:100,width:50,height:50,child: Container(color: Colors.red)),
-        const Positioned(top:170,width:100,height:20,child: Text("你好",textAlign: TextAlign.center,)),
+        Positioned(top:120,width:80,height:80,child:InkWell(
+          child: getIconButton(),
+          onTap: (){
+            print("这个是封装的按钮");
+          },
+        )),
+        //const Positioned(top:170,width:100,height:20,child: Text("你好",textAlign: TextAlign.center,)),
       ],
     );
    }
+   Widget getIconButton () {
+    return Container(
+      alignment: Alignment.topCenter,
+      color: Colors.red,
+      child: Column(
+        // fromLTRB: 左 上 右 下
+        children: [
+          Padding(padding: EdgeInsets.only(top: 5),child:
+          Image.asset("images/hd_arrow_right.png"),),
+          Padding(padding: EdgeInsets.only(top: 5),child: Text("点击登录",textAlign: TextAlign.center,),)
+        ],
+      ),
+    );
+   }
+   // 下面列表视图
+
 }
