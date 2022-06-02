@@ -64,34 +64,34 @@ class TapboxAState extends State<TapboxA> {
   void activate() {
     "didUpdateWidget before super".logI(tag);
     super.activate();
-    "activate before super".logI(tag);
+    "activate after super".logI(tag);
   }
 
   @override
   void deactivate() {
     "didUpdateWidget before super".logI(tag);
     super.deactivate();
-    "deactivate before super".logI(tag);
+    "deactivate after super".logI(tag);
   }
 
   @override
   void dispose() {
     "dispose before super".logI(tag);
     super.dispose();
-    "dispose before super".logI(tag);
+    "dispose after super".logI(tag);
   }
 
   @override
   void setState(VoidCallback fn) {
     "setState before super".logI(tag);
     super.setState(fn);
-    "setState before super".logI(tag);
+    "setState after super".logI(tag);
   }
 
   @override
   void reassemble() {
     "reassemble before super".logI(tag);
     super.reassemble();
-    "reassemble before super".logI(tag);
+    "reassemble after super".logI(tag);
   }
 }
