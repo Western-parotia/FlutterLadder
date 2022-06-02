@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:wanandroid_app/modules/mine/learn_items/manage_by_parent.dart';
+import 'package:wanandroid_app/modules/mine/learn_items/state_manage_by_parent.dart';
 
 import '../../global/images_path.dart';
-import 'learn_items/manage_by_self.dart';
+import 'learn_items/state_manage_by_self.dart';
 import 'login_page.dart';
 
 class AccountPage extends StatefulWidget {
