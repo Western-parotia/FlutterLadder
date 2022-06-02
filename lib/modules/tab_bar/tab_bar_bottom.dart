@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:wanandroid_app/modules/account/account_page.dart';
 import 'package:wanandroid_app/modules/home/home_page.dart';
+import 'package:wanandroid_app/modules/mine/account_page.dart';
 import 'package:wanandroid_app/modules/project/project_page.dart';
 import 'package:wanandroid_app/modules/structure/structure_page.dart';
 import 'package:wanandroid_app/modules/wechat_account/wechat_account_page.dart';
