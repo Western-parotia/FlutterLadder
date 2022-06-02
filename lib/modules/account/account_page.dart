@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:wanandroid_app/modules/state_manager/state_parent.dart';
 
 import '../../global/images_path.dart';
 import '../login/login_page.dart';
@@ -83,8 +85,11 @@ Widget _logoElement() {
 }
 
 class _MenusWidget extends StatelessWidget {
+  late BuildContext context;
+
   @override
   Widget build(BuildContext context) {
+    this.context = context;
     return ListTileTheme(
       contentPadding: const EdgeInsets.symmetric(horizontal: 30),
       child: SliverList(
@@ -156,6 +161,22 @@ class _MenusWidget extends StatelessWidget {
         listTile = ListTile(
           title: const Text("检查更新"),
           onTap: () => {},
+          leading: Icon(
+            Icons.install_mobile,
+            color: iconColor,
+          ),
+          trailing: const Icon(Icons.chevron_right),
+        );
+        break;
+      case 5:
+        listTile = ListTile(
+          title: const Text("状态管理"),
+          onTap: () => {
+            Navigator.of(context)
+                .push(CupertinoPageRoute(builder: (BuildContext context) {
+              return const TapboxA();
+            }))
+          },
           leading: Icon(
             Icons.install_mobile,
             color: iconColor,
