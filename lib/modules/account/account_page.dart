@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:wanandroid_app/modules/state_manager/state_parent.dart';
+import 'package:wanandroid_app/modules/state_manager/manage_by_parent.dart';
 
 import '../../global/images_path.dart';
 import '../login/login_page.dart';
+import '../state_manager/manage_by_self.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({Key? key}) : super(key: key);
@@ -170,11 +171,27 @@ class _MenusWidget extends StatelessWidget {
         break;
       case 5:
         listTile = ListTile(
-          title: const Text("状态管理"),
+          title: const Text("状态管理:子widget独自管理"),
           onTap: () => {
             Navigator.of(context)
                 .push(CupertinoPageRoute(builder: (BuildContext context) {
               return const TapboxA();
+            }))
+          },
+          leading: Icon(
+            Icons.install_mobile,
+            color: iconColor,
+          ),
+          trailing: const Icon(Icons.chevron_right),
+        );
+        break;
+      case 6:
+        listTile = ListTile(
+          title: const Text("状态管理:父管子"),
+          onTap: () => {
+            Navigator.of(context)
+                .push(CupertinoPageRoute(builder: (BuildContext context) {
+              return const ParentWidget();
             }))
           },
           leading: Icon(
