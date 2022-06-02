@@ -25,13 +25,10 @@ class _LoginPageState extends State<LoginPage> {
             Flex(
               direction: Axis.vertical,
               children: <Widget>[
-                Expanded(
-                    // Container固定高度可以不使用Expanded
-                    flex: 0,
-                    child: Container(
-                      height: 300,
-                      color: Colors.lightBlue,
-                    )),
+                Container(
+                  height: 300,
+                  color: Colors.lightBlue,
+                ),
                 Expanded(
                     flex: 1,
                     child: Container(
