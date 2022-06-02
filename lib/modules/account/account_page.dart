@@ -179,7 +179,7 @@ class _MenusWidget extends StatelessWidget {
             }))
           },
           leading: Icon(
-            Icons.install_mobile,
+            Icons.adjust,
             color: iconColor,
           ),
           trailing: const Icon(Icons.chevron_right),
@@ -195,7 +195,7 @@ class _MenusWidget extends StatelessWidget {
             }))
           },
           leading: Icon(
-            Icons.install_mobile,
+            Icons.adjust,
             color: iconColor,
           ),
           trailing: const Icon(Icons.chevron_right),
