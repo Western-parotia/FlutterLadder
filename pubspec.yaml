@@ -18,6 +18,7 @@ dependencies:
   cached_network_image: ^3.2.0      # 图片加载
   card_swiper: ^2.0.3               # 轮播图  flutter_swiper太老，两者内容一样
   pull_to_refresh: ^2.0.0           # 下拉刷新上拉加载
+  get: ^4.6.5 # getX
 
 dev_dependencies:
   flutter_test:

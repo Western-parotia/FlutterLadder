@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:wanandroid_app/modules/mine/learn_items/state_manage_by_parent.dart';
 
 import '../../global/images_path.dart';
+import 'learn_items/getx_simple.dart';
 import 'learn_items/state_manage_by_self.dart';
 import 'login_page.dart';
 
@@ -192,6 +193,22 @@ class _MenusWidget extends StatelessWidget {
             Navigator.of(context)
                 .push(CupertinoPageRoute(builder: (BuildContext context) {
               return const ParentWidget();
+            }))
+          },
+          leading: Icon(
+            Icons.adjust,
+            color: iconColor,
+          ),
+          trailing: const Icon(Icons.chevron_right),
+        );
+        break;
+      case 7:
+        listTile = ListTile(
+          title: const Text("状态管理:getX 计数器Plus"),
+          onTap: () => {
+            Navigator.of(context)
+                .push(CupertinoPageRoute(builder: (BuildContext context) {
+              return CalculatePageA();
             }))
           },
           leading: Icon(
