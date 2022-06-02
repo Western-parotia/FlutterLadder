@@ -30,7 +30,7 @@ class TapboxAState extends State<TapboxA> {
         color: _active ? Colors.greenAccent : Colors.grey,
         child: Center(
           child: Text(
-            _active ? "Click to Active" : "Click to Inactive",
+            _active ? "Click to Inactive" : "Click to Active",
             style: const TextStyle(fontSize: 30, color: Colors.white),
           ),
         ),
