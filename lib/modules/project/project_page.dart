@@ -37,7 +37,20 @@ class _HeaderWidget extends StatelessWidget {
       clipper: BottomClipper(),
       child: Container(
         color: Colors.blue,
-        padding: const EdgeInsets.only(top: 40),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              height: 100,
+              width: 100,
+              color: Colors.yellow,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const Text('用户名')
+          ],
+        ),
       ),
     );
   }
