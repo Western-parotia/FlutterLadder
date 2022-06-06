@@ -1,6 +1,7 @@
 //import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wanandroid_app/pages/home/hd_home_page.dart';
+import 'package:wanandroid_app/pages/login/hd_login_page.dart';
 import 'package:wanandroid_app/pages/mine/hd_mine_page.dart';
 
 class HDMainNavigator extends StatefulWidget {
@@ -12,7 +13,7 @@ class HDMainNavigator extends StatefulWidget {
 // 状态管理类
 class HDMainNavigatorState extends State<HDMainNavigator> {
   DateTime? _lastPressedAt; // 上次点击时间，WillPopScope 防止用户误触返回键而退出APP,当用户在1秒内点击两次返回按钮时，才认为是退出APP
-  final appPages = [HDHomePage(),HDMinePage()];
+  final appPages = [HDLoginPage(),HDMinePage()];
   var currentIndex = 0;
 
   @override

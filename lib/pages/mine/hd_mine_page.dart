@@ -23,7 +23,7 @@ class HDMinePageState extends State<HDMinePage> {
     return CustomScrollView (
       slivers: <Widget>[
         ///  SliverAppBar 和  SliverToBoxAdapter 互斥，SliverToBoxAdapter没有导航
-    /**
+
       // AppBar，包含一个导航栏.
       SliverAppBar (
           pinned: true, // 滑动到顶端时会固定住
@@ -32,11 +32,11 @@ class HDMinePageState extends State<HDMinePage> {
             background: getTopHeaderView(),
           ),
       ),
-        */
+
         /// 自定义视图
-        SliverToBoxAdapter(
-          child: getTopHeaderViewV2(),
-        ),
+        // SliverToBoxAdapter(
+        //   child: getTopHeaderViewV2(),
+        // ),
         SliverList(
           delegate: SliverChildBuilderDelegate((content, index) {
             return getListView(index);
@@ -67,10 +67,20 @@ class HDMinePageState extends State<HDMinePage> {
 
    /// 顶部 headerView 第二个版本
    Widget getTopHeaderViewV2 () {
-    return Container(
+    return Stack(
       alignment: Alignment.topCenter,
-      height: 220,
-      child: getTopHeaderView(),
+      children: [
+        Image.asset(
+          "images/hd_update_head.jpg",
+          fit: BoxFit.cover,
+        ),
+        Positioned(top:60,width:80,height:90,child:InkWell(
+          child: getIconButton(),
+          onTap: (){
+            print("这个是封装的按钮");
+          },
+        )),
+      ],
     );
    }
 
