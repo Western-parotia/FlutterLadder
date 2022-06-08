@@ -13,7 +13,7 @@ class HDMainNavigator extends StatefulWidget {
 // 状态管理类
 class HDMainNavigatorState extends State<HDMainNavigator> {
   DateTime? _lastPressedAt; // 上次点击时间，WillPopScope 防止用户误触返回键而退出APP,当用户在1秒内点击两次返回按钮时，才认为是退出APP
-  final appPages = [HDLoginPage(),HDMinePage()];
+  final appPages = [HDHomePage(),HDMinePage()];
   var currentIndex = 0;
 
   @override

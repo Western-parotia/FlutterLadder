@@ -1,3 +1,5 @@
+//
+import 'dart:math';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:wanandroid_app/utils/screen_utils.dart';
@@ -11,12 +13,11 @@ class HDLoginPage extends StatefulWidget {
 }
 class HDLoginPageState extends State<HDLoginPage> {
   // 头部蓝色背景
-  double topBgViewH = 250;
+  double topBgViewH = 260;
   // 账号密码输入View 高度
   double inputViewH = 250;
   // 登录图标高度
   double loginIconH = 80;
-  //double inputViewW = Screen.width(context) - 80;
   // 关闭按钮高度
   double closeIconH = 25;
 
@@ -49,31 +50,18 @@ class HDLoginPageState extends State<HDLoginPage> {
              onTap:() {
              }),),
          getContentSubViews(),
-         /**
-         // 关闭图标
-         Positioned(left: 20,top: 40,width: 30,height: 30,child: InkWell(child: Image.asset("images/icon_flutter.png"),
-             onTap:() {
-             })),
-         // 登录Ico
-         Positioned(left: (width-80.0)/2,top: 80,width: 80,height: 80,child: Image.asset("images/icon_flutter.png")),
-         // 间隔
-         Positioned(left: 0,top: 160,right: 0,height: 50,
-             child: Container(
-             )
-         ),
-         // 账号密码输入View
-         Positioned(left:40,right: 40,top: 210,height: 250,child: getInputView())
-             */
        ],
     );
   }
 
   // 视图背景
   Widget getBackGroundView () {
+    double paintX = Screen.width(context)/2;
+    double paintY = topBgViewH/2 + 100;
     return Column(
         children: [
-           Container(width: Screen.width(context),height: topBgViewH,color: Colors.blue,),
-           Padding(child: Container(color: Colors.grey,),padding: EdgeInsets.all(0),)
+           ClipPath(clipper: BottomClipper(),child:Container(color: Colors.blue,width: Screen.width(context),height:topBgViewH,)),
+           Container(color: Colors.grey)
         ],
     );
   }
@@ -83,7 +71,7 @@ class HDLoginPageState extends State<HDLoginPage> {
     return Column(
        children: [
           Container(margin: EdgeInsets.only(top: 80),width: loginIconH,height: loginIconH,child: Image.asset("images/icon_flutter.png"),),
-          Padding(padding: EdgeInsets.only(top: 40),child: getInputView(),),
+          Padding(padding: EdgeInsets.only(top: 30),child: getInputView(),),
           Padding(padding: EdgeInsets.only(top: 30),child: getThirdLoginTipView()),
           Padding(padding: EdgeInsets.only(top: 20,left: 0,right: 0),child: getThirdLoginTypeView(),)
        ],
@@ -186,16 +174,54 @@ class HDLoginPageState extends State<HDLoginPage> {
     double ratio = Screen.width(context)/2/5;
     //print("$ratio");
     return Row(
+      // child: Image.asset("images/icon_flutter.png",width: 50,height: 50,)
+      // Image.asset("images/icon_flutter.png",width: 50,height: 50)
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        InkWell(child: Image.asset("images/icon_flutter.png",width: 50,height: 50,),
+        InkWell(child:Icon(Icons.wechat,size: 50,color: Colors.blue,) ,
             onTap:() {
             }),
-        InkWell(child: Image.asset("images/icon_flutter.png",width: 50,height: 50),
+        InkWell(child:Icon(Icons.share,size: 50,color: Colors.blue,) ,
             onTap:() {
             })
       ],
     );
   }
 
+}
+class BottomClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    var path = Path();
+    // (1)根据坐标点绘制,size包含了子组件宽高
+    // (2)若不是被贝塞尔曲线，依次直线相连lineTo设置的坐标路径剪裁
+    // (3)若使用了贝塞尔曲线，则贝塞尔曲线的首尾点的前后的点先连也是贝塞尔曲线
+    // 贝塞尔绘制弧线
+    path.lineTo(0, 0);
+    path.lineTo(0, size.height - 50);
+    // 贝塞尔曲线的两个坐标，根据高低通过弧线相连
+    var firstPoint = Offset(size.width / 2, size.height + 10);
+    var endPoint = Offset(size.width, size.height - 50);
+    // 绘制贝塞尔曲线
+    path.quadraticBezierTo(
+        firstPoint.dx, firstPoint.dy, endPoint.dx, endPoint.dy);
+    path.lineTo(size.width, 0);
+    /*
+    // 贝塞尔绘制波浪线
+    path.lineTo(0,0);
+    path.lineTo(0,size.height-40);
+    // 波浪线需要四个贝塞尔坐标，分别在1/4、1/2.25，3/4，1处设置，会根据高低弧线相连
+    var firstPoint=Offset(size.width/4,size.height);
+    var secondPoint=Offset(size.width/2.25,size.height-30);
+    path.quadraticBezierTo(firstPoint.dx, firstPoint.dy, secondPoint.dx, secondPoint.dy);
+    var thirdPoint = Offset(size.width / 4 * 3, size.height - 90);
+    var fourthPoint = Offset(size.width, size.height - 40);
+    path.quadraticBezierTo(
+        thirdPoint.dx, thirdPoint.dy, fourthPoint.dx, fourthPoint.dy);
+    path.lineTo(size.width, 0);
+    * */
+    return path;
+  }
+  @override
+  bool shouldReclip(CustomClipper oldDelegate) => true;
 }
