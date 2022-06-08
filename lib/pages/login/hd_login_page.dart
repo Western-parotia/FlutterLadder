@@ -196,62 +196,6 @@ class HDLoginPageState extends State<HDLoginPage> {
             })
       ],
     );
-    /**
-    return Container(
-      color: Colors.red,
-      height: 50,
-      child: GridView(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, //横轴三个子widget
-              childAspectRatio: ratio//宽高比为1时，子widget
-          ),
-          children:<Widget>[
-            Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 0),child: Icon(Icons.ac_unit),),
-            Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 0),child: Icon(Icons.airport_shuttle),)
-            // Icon(Icons.ac_unit),
-            // Icon(Icons.airport_shuttle),
-            // Icon(Icons.all_inclusive),
-            // Icon(Icons.beach_access),
-            // Icon(Icons.cake),
-            // Icon(Icons.free_breakfast)
-          ]
-      ),
-    );*/
-  /**
-    return GridView(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3, //横轴三个子widget
-            childAspectRatio: 1.0 //宽高比为1时，子widget
-        ),
-        children:<Widget>[
-          Icon(Icons.ac_unit),
-          Icon(Icons.airport_shuttle),
-          Icon(Icons.all_inclusive),
-          Icon(Icons.beach_access),
-          Icon(Icons.cake),
-          Icon(Icons.free_breakfast)
-        ]
-    );
-      */
-    // return GridView.count(crossAxisCount: 2,childAspectRatio: 1.0,children: [
-    //   Icon(Icons.ac_unit),Icon(Icons.free_breakfast)
-    // ],);
-    /**
-    return Container(
-      color: Colors.red,
-      height: 50,
-      child: GridView.count(
-        //scrollDirection:Axis.horizontal,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,childAspectRatio: 0.5),
-        children:<Widget> [Icon(Icons.ac_unit),Icon(Icons.free_breakfast)],
-      ),
-    );
-      return GridView(
-          scrollDirection:Axis.horizontal,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,childAspectRatio: 0.5),
-          children:<Widget> [Icon(Icons.ac_unit),Icon(Icons.free_breakfast)],
-      );
-        */
   }
 
 }
