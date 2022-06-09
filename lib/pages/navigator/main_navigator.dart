@@ -1,6 +1,6 @@
 //import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:wanandroid_app/pages/home/hd_home_page.dart';
+import 'package:wanandroid_app/pages/home/controller/hd_home_page.dart';
 import 'package:wanandroid_app/pages/login/hd_login_page.dart';
 import 'package:wanandroid_app/pages/mine/hd_mine_page.dart';
 

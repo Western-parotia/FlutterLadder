@@ -1,15 +1,39 @@
 //import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:wanandroid_app/net/api.dart';
+import 'package:wanandroid_app/net/mj_http_tool.dart';
+import 'package:wanandroid_app/net/api.dart';
+import 'package:wanandroid_app/net/mj_http_tool.dart';
 // 主Widget
 class HDHomePage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => HDHomePageState();
 }
-
 // 状态类
 class HDHomePageState extends State<HDHomePage> {
   List<String> listItems = ["收藏","黑夜模式","色彩主体","设置","检查更新"];
+  List<String> imageList = ["https://img0.baidu.com/it/u=2862534777,914942650&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500",
+    "https://img0.baidu.com/it/u=2862534777,914942650&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500",
+    "https://img0.baidu.com/it/u=2862534777,914942650&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500",
+    "https://img0.baidu.com/it/u=2862534777,914942650&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500",
+  ];
+  @override
+  void initState() {
+    super.initState();
+    httpGetData(1);
+  }
+  void httpGetData(int page) {
+// result 请求数据返回的Json字符串
+    MJHttpTool(url: Api.question(page)).requestData((dynamic result) {
+      print("$result");
+    },(dynamic error) {
+
+    }, () {
+
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
@@ -29,7 +53,26 @@ class HDHomePageState extends State<HDHomePage> {
   Widget getTopBannerView () {
     return Container(
       height: 200,
-      color: Colors.red,
+      color: Colors.blue,
+      child: Swiper(
+        itemBuilder: (BuildContext context,int index){
+          // 配置图片地址
+          return Image.network(imageList[index],fit: BoxFit.fill,);
+        },
+        onTap: (int index) {
+          print("轮播图点击索引：$index");
+        },
+        // 配置图片数量
+        itemCount: imageList.length ,
+        // 底部分页器
+        pagination: SwiperPagination(),
+        // 左右箭头
+        //control: SwiperControl(),
+        // 无限循环
+        loop: true,
+        // 自动轮播
+        autoplay: true,
+      ),
     );
   }
   Widget getHomeItem(int index) {
@@ -97,25 +140,5 @@ class HDHomePageState extends State<HDHomePage> {
           ],
       );
   }
-
-  // 获取列表Cell
-  Widget getListItem (int index) {
-    String textString = listItems[index];
-    return Stack(
-      children: [
-        const Positioned(left: 20,top: 10,width: 30,height: 30,child: Icon(Icons.favorite,color: Colors.red)
-        ),
-         Positioned(left: 70,top: 15,width: 80,height: 20,child: Text(textString)
-        ),
-        Positioned(right: 15,top: 17,width: 16,height: 16,child: Image(width: 16,height: 16,image: AssetImage("images/ic_arrow_right.png"),)
-        ),
-
-        Positioned(left: 15,top: 50,right: 15,height: 1,child: Container(
-          color: Colors.grey,
-        ),),
-      ],
-    );
-  }
-
 }
 
