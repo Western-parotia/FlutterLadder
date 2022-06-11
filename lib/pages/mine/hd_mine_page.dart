@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wanandroid_app/pages/login/hd_login_page.dart';
 
 /// 主Widget类
 class HDMinePage extends StatefulWidget {
@@ -20,30 +21,33 @@ class HDMinePageState extends State<HDMinePage> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView (
-      slivers: <Widget>[
-        ///  SliverAppBar 和  SliverToBoxAdapter 互斥，SliverToBoxAdapter没有导航
+    return Scaffold(
+      body: CustomScrollView (
+        slivers: <Widget>[
+          ///  SliverAppBar 和  SliverToBoxAdapter 互斥，SliverToBoxAdapter没有导航
 
-      // AppBar，包含一个导航栏.
-      SliverAppBar (
-          pinned: true, // 滑动到顶端时会固定住
-          expandedHeight: 200.0,
-          flexibleSpace: FlexibleSpaceBar(
-            background: getTopHeaderView(),
+          // AppBar，包含一个导航栏.
+          SliverAppBar (
+            pinned: true, // 滑动到顶端时会固定住
+            expandedHeight: 200.0,
+            flexibleSpace: FlexibleSpaceBar(
+              background: getTopHeaderView(),
+            ),
           ),
-      ),
 
-        /// 自定义视图
-        // SliverToBoxAdapter(
-        //   child: getTopHeaderViewV2(),
-        // ),
-        SliverList(
-          delegate: SliverChildBuilderDelegate((content, index) {
-            return getListView(index);
-          }, childCount: titles.length),
-        )
-      ],
+          /// 自定义视图
+          // SliverToBoxAdapter(
+          //   child: getTopHeaderViewV2(),
+          // ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate((content, index) {
+              return getListView(index);
+            }, childCount: titles.length),
+          )
+        ],
+      ),
     );
+    //return
   }
 
   /// 顶部 headerView
@@ -55,10 +59,13 @@ class HDMinePageState extends State<HDMinePage> {
           "images/hd_update_head.jpg",
           fit: BoxFit.cover,
         )),
-        Positioned(top:110,width:80,height:90,child:InkWell(
+        Positioned(top:120,width:80,height:90,child:InkWell(
           child: getIconButton(),
           onTap: (){
             print("这个是封装的按钮");
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return HDLoginPage();
+            }));
           },
         )),
       ],

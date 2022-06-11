@@ -8,6 +8,7 @@ part of 'home_model.dart';
 
 HomeModel _$HomeModelFromJson(Map<String, dynamic> json) => HomeModel(
       author: json['author'] as String?,
+      desc: json['desc'] as String,
       chapterId: json['chapterId'] as int,
       chapterName: json['chapterName'] as String,
       collect: json['collect'] as bool,
@@ -33,6 +34,7 @@ HomeModel _$HomeModelFromJson(Map<String, dynamic> json) => HomeModel(
 
 Map<String, dynamic> _$HomeModelToJson(HomeModel instance) => <String, dynamic>{
       'author': instance.author,
+      'desc':instance.desc,
       'chapterId': instance.chapterId,
       'chapterName': instance.chapterName,
       'collect': instance.collect,

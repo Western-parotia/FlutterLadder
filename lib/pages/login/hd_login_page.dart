@@ -48,6 +48,7 @@ class HDLoginPageState extends State<HDLoginPage> {
            height: closeIconH,
            child: InkWell(child: Image.asset("images/hd_white_close.png"),
              onTap:() {
+                Navigator.pop(context);
              }),),
          getContentSubViews(),
        ],
@@ -70,7 +71,7 @@ class HDLoginPageState extends State<HDLoginPage> {
   Widget getContentSubViews () {
     return Column(
        children: [
-          Container(margin: EdgeInsets.only(top: 80),width: loginIconH,height: loginIconH,child: Image.asset("images/icon_flutter.png"),),
+          Container(margin: EdgeInsets.only(top: 120),width: loginIconH,height: loginIconH,child: Image.asset("images/icon_flutter.png"),),
           Padding(padding: EdgeInsets.only(top: 30),child: getInputView(),),
           Padding(padding: EdgeInsets.only(top: 30),child: getThirdLoginTipView()),
           Padding(padding: EdgeInsets.only(top: 20,left: 0,right: 0),child: getThirdLoginTypeView(),)

@@ -12,6 +12,7 @@ class HomeModel {
   String? author;  //作者
   int chapterId;
   String chapterName;
+  String desc;
   bool collect;
   int courseId;
   int id;
@@ -32,6 +33,7 @@ class HomeModel {
   List<Tag> tags;
   // 构造
   HomeModel({
+    required this.desc,
     required this.author,
     required this.chapterId,
     required this.chapterName,

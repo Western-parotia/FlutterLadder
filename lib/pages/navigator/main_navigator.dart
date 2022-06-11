@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:wanandroid_app/pages/home/controller/hd_home_page.dart';
 import 'package:wanandroid_app/pages/login/hd_login_page.dart';
 import 'package:wanandroid_app/pages/mine/hd_mine_page.dart';
+import 'package:wanandroid_app/pages/project/hd_project_page.dart';
 
 class HDMainNavigator extends StatefulWidget {
   HDMainNavigator({Key? key}) : super(key:key);  // 构造方法
@@ -13,7 +14,7 @@ class HDMainNavigator extends StatefulWidget {
 // 状态管理类
 class HDMainNavigatorState extends State<HDMainNavigator> {
   DateTime? _lastPressedAt; // 上次点击时间，WillPopScope 防止用户误触返回键而退出APP,当用户在1秒内点击两次返回按钮时，才认为是退出APP
-  final appPages = [HDHomePage(),HDMinePage()];
+  final appPages = [HDHomePage(),HDProjectPage(),HDMinePage()];
   var currentIndex = 0;
 
   @override
@@ -27,7 +28,9 @@ class HDMainNavigatorState extends State<HDMainNavigator> {
        child: Scaffold(
          body: appPages[currentIndex],
          bottomNavigationBar: BottomNavigationBar(
-           items: const [BottomNavigationBarItem(label: "首页",icon: Icon(Icons.home)), BottomNavigationBarItem(label: "我的", icon: Icon(Icons.person))],
+           items: const [BottomNavigationBarItem(label: "首页",icon: Icon(Icons.home)),
+             BottomNavigationBarItem(label: "项目", icon: Icon(Icons.list)),
+             BottomNavigationBarItem(label: "我的", icon: Icon(Icons.person))],
            currentIndex:currentIndex,
            fixedColor: Colors.orange,
            onTap: tapAction,
