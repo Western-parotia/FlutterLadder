@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -19,7 +20,7 @@ class _LoginPageState extends State<LoginPage> {
     final titleBarHeight = 56 + MediaQuery.of(context).padding.top;
 
     return Scaffold(
-        //避免键盘弹出时，出现布局溢出（也可使用滚动布局处理，与android 同理）
+      //避免键盘弹出时，出现布局溢出（也可使用滚动布局处理，与android 同理）
         resizeToAvoidBottomInset: false,
         body: Stack(
           children: <Widget>[
@@ -27,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
               direction: Axis.vertical,
               children: <Widget>[
                 Expanded(
-                    // Container固定高度可以不使用Expanded
+                  // Container固定高度可以不使用Expanded
                     flex: 0,
                     child: Container(
                       height: 300,
@@ -76,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 Container(
-                    // color: Colors.amber, // color 与 decoration 互斥
+                  // color: Colors.amber, // color 与 decoration 互斥
                     margin: const EdgeInsets.symmetric(horizontal: 30),
                     padding: const EdgeInsets.all(20),
                     decoration: createCardDecoration(context),
@@ -124,7 +125,7 @@ class _LoginPageState extends State<LoginPage> {
                       InkWell(
                         onTap: () => {},
                         child:
-                            AssetsUtils.loadImageWH("logo_wechat.png", 40, 40),
+                        AssetsUtils.loadImageWH("logo_wechat.png", 40, 40),
                       ),
                       const SizedBox(
                         width: 100,
@@ -132,7 +133,7 @@ class _LoginPageState extends State<LoginPage> {
                       InkWell(
                         onTap: () => {},
                         child:
-                            AssetsUtils.loadImageWH("logo_weibo.png", 40, 40),
+                        AssetsUtils.loadImageWH("logo_weibo.png", 40, 40),
                       ),
                     ])
               ],
@@ -166,7 +167,7 @@ class _LoginWidget extends StatefulWidget {
 class _LoginState extends State<_LoginWidget> {
   var _account = "";
   var _pwd = "";
-
+  var visiblePWD = true;
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -177,15 +178,17 @@ class _LoginState extends State<_LoginWidget> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           TextFormField(
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             onSaved: (text) {
               Log.i("onSaved :账号:$text");
               _account = text!;
             },
             validator: (text) {
               Log.i("validator :账号:$text");
-              return text!.trim().length > 4 ? null : "账号最少4个字符";
+              return text!.trim().length >= 4 ? null : "账号最少4个字符";
             },
-            decoration: InputDecoration(
+            keyboardType: TextInputType.visiblePassword,
+            decoration: const InputDecoration(
               label: Text("账号"),
               labelStyle: TextStyle(color: Colors.blue),
               prefixIcon: Icon(Icons.person, color: Colors.blue, size: 20),
@@ -199,9 +202,12 @@ class _LoginState extends State<_LoginWidget> {
             },
             validator: (text) {
               Log.i("validator :密码:$text");
-              return text!.trim().length > 4 ? null : "密码最少6个字符";
+              final t = text!.trim();
+              return t.length >= 6 && t.length <= 18 ? null : "密码为6~18个字符";
             },
-            decoration: InputDecoration(
+            keyboardType: TextInputType.visiblePassword,
+            obscureText: visiblePWD,
+            decoration: const InputDecoration(
               label: Text("密码"),
               hintText: "6-18位",
               hintStyle: TextStyle(color: Colors.grey),
