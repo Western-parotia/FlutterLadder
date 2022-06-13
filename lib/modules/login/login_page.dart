@@ -164,13 +164,14 @@ class _LoginWidget extends StatefulWidget {
   State<StatefulWidget> createState() => _LoginState();
 }
 
+///但这里的目标不是提供最佳实践，而是展示不同的实现方式，探索Form的操作性
+///下面分别使用了 TextFormField 的 Controller , onSaved（）+ validator 的使用
 class _LoginState extends State<_LoginWidget> {
   var _account = "";
   var _pwd = "";
   var visiblePWD = true;
   final _formKey = GlobalKey<FormState>();
   final _accountController = TextEditingController();
-  final _pwdController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -205,7 +206,6 @@ class _LoginState extends State<_LoginWidget> {
             ),
           ),
           TextFormField(
-              controller: _pwdController,
               onSaved: (text) {
                 Log.i("onSaved :密码:$text");
                 _pwd = text!;
