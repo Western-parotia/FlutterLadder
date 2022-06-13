@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../global/images_path.dart';
+import '../../utils/log_utils.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -163,62 +164,93 @@ class _LoginWidget extends StatefulWidget {
 }
 
 class _LoginState extends State<_LoginWidget> {
-  var _name = "";
+  var _account = "";
   var _pwd = "";
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        const TextField(
-          decoration: InputDecoration(
-            label: Text("用户名"),
-            prefixIcon: Icon(Icons.person, color: Colors.blue, size: 20),
-            suffixIcon: Icon(Icons.close, color: Colors.grey, size: 20),
+    return Form(
+      key: _formKey,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          TextFormField(
+            onSaved: (text) {
+              Log.i("onSaved :账号:$text");
+              _account = text!;
+            },
+            validator: (text) {
+              Log.i("validator :账号:$text");
+              return text!.trim().length > 4 ? null : "账号最少4个字符";
+            },
+            decoration: InputDecoration(
+              label: Text("账号"),
+              labelStyle: TextStyle(color: Colors.blue),
+              prefixIcon: Icon(Icons.person, color: Colors.blue, size: 20),
+              suffixIcon: Icon(Icons.close, color: Colors.grey, size: 20),
+            ),
           ),
-        ),
-        const TextField(
-          decoration: InputDecoration(
-            label: Text("密码"),
-            hintText: "6-18位",
-            hintStyle: TextStyle(color: Colors.grey),
-            prefixIcon: Icon(Icons.lock, color: Colors.blue, size: 20),
-            suffixIcon: Icon(Icons.remove_red_eye_outlined,
-                color: Colors.grey, size: 20),
+          TextFormField(
+            onSaved: (text) {
+              Log.i("onSaved :密码:$text");
+              _pwd = text!;
+            },
+            validator: (text) {
+              Log.i("validator :密码:$text");
+              return text!.trim().length > 4 ? null : "密码最少6个字符";
+            },
+            decoration: InputDecoration(
+              label: Text("密码"),
+              hintText: "6-18位",
+              hintStyle: TextStyle(color: Colors.grey),
+              prefixIcon: Icon(Icons.lock, color: Colors.blue, size: 20),
+              suffixIcon: Icon(Icons.remove_red_eye_outlined,
+                  color: Colors.grey, size: 20),
+            ),
           ),
-        ),
-        const SizedBox(
-          height: 50,
-        ),
-        InkWell(
-            onTap: () => {},
-            child: Container(
-                height: 50,
-                decoration: const ShapeDecoration(
-                    color: Colors.lightBlue,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(30)))),
-                alignment: Alignment.center,
-                child: const Text(
-                  "登录",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ))),
-        const SizedBox(height: 15),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            const Text("还没有账号?",
-                style: TextStyle(color: Colors.black45, fontSize: 15)),
-            InkWell(
-              onTap: () => {},
-              child: const Text("去注册",
-                  style: TextStyle(color: Colors.lightBlue, fontSize: 15)),
-            )
-          ],
-        )
-      ],
+          const SizedBox(
+            height: 50,
+          ),
+          InkWell(
+              onTap: () {
+                var _formState = _formKey.currentState;
+                Log.i("onTap :登录:$_formState");
+                if (null != _formState) {
+                  if (_formState.validate()) {
+                    _formState.save();
+                    Log.i("onTap :account,$_account, pwd:$_pwd");
+                  }
+                }
+              },
+              child: Container(
+                  height: 50,
+                  decoration: const ShapeDecoration(
+                      color: Colors.lightBlue,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(30)))),
+                  alignment: Alignment.center,
+                  child: const Text(
+                    "登录",
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  ))),
+          const SizedBox(height: 15),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              const Text("还没有账号?",
+                  style: TextStyle(color: Colors.black45, fontSize: 15)),
+              InkWell(
+                onTap: () => {},
+                child: const Text("去注册",
+                    style: TextStyle(color: Colors.lightBlue, fontSize: 15)),
+              )
+            ],
+          )
+        ],
+      ),
     );
   }
 }
