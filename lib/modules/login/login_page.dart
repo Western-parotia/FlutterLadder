@@ -169,6 +169,8 @@ class _LoginState extends State<_LoginWidget> {
   var _pwd = "";
   var visiblePWD = true;
   final _formKey = GlobalKey<FormState>();
+  final _accountController = TextEditingController();
+  final _pwdController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -178,6 +180,7 @@ class _LoginState extends State<_LoginWidget> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           TextFormField(
+            controller: _accountController,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             onSaved: (text) {
               Log.i("onSaved :账号:$text");
@@ -188,34 +191,48 @@ class _LoginState extends State<_LoginWidget> {
               return text!.trim().length >= 4 ? null : "账号最少4个字符";
             },
             keyboardType: TextInputType.visiblePassword,
-            decoration: const InputDecoration(
-              label: Text("账号"),
-              labelStyle: TextStyle(color: Colors.blue),
-              prefixIcon: Icon(Icons.person, color: Colors.blue, size: 20),
-              suffixIcon: Icon(Icons.close, color: Colors.grey, size: 20),
+            decoration: InputDecoration(
+              label: const Text("账号"),
+              labelStyle: const TextStyle(color: Colors.blue),
+              prefixIcon:
+                  const Icon(Icons.person, color: Colors.blue, size: 20),
+              suffixIcon: InkWell(
+                onTap: () {
+                  _accountController.clear();
+                },
+                child: const Icon(Icons.close, color: Colors.grey, size: 20),
+              ),
             ),
           ),
           TextFormField(
-            onSaved: (text) {
-              Log.i("onSaved :密码:$text");
-              _pwd = text!;
-            },
-            validator: (text) {
-              Log.i("validator :密码:$text");
-              final t = text!.trim();
-              return t.length >= 6 && t.length <= 18 ? null : "密码为6~18个字符";
-            },
-            keyboardType: TextInputType.visiblePassword,
-            obscureText: visiblePWD,
-            decoration: const InputDecoration(
-              label: Text("密码"),
-              hintText: "6-18位",
-              hintStyle: TextStyle(color: Colors.grey),
-              prefixIcon: Icon(Icons.lock, color: Colors.blue, size: 20),
-              suffixIcon: Icon(Icons.remove_red_eye_outlined,
-                  color: Colors.grey, size: 20),
-            ),
-          ),
+              controller: _pwdController,
+              onSaved: (text) {
+                Log.i("onSaved :密码:$text");
+                _pwd = text!;
+              },
+              validator: (text) {
+                Log.i("validator :密码:$text");
+                final t = text!.trim();
+                return t.length >= 6 && t.length <= 18 ? null : "密码为6~18个字符";
+              },
+              keyboardType: TextInputType.visiblePassword,
+              obscureText: visiblePWD,
+              decoration: InputDecoration(
+                label: const Text("密码"),
+                hintText: "6-18位",
+                hintStyle: const TextStyle(color: Colors.grey),
+                prefixIcon:
+                    const Icon(Icons.lock, color: Colors.blue, size: 20),
+                suffixIcon: InkWell(
+                  onTap: () {
+                    setState(() {
+                      visiblePWD = !visiblePWD;
+                    });
+                  },
+                  child: const Icon(Icons.remove_red_eye_outlined,
+                      color: Colors.grey, size: 20),
+                ),
+              )),
           const SizedBox(
             height: 50,
           ),
