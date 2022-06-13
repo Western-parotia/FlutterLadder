@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../global/images_path.dart';
+import '../../utils/log_utils.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -18,7 +20,7 @@ class _LoginPageState extends State<LoginPage> {
     final titleBarHeight = 56 + MediaQuery.of(context).padding.top;
 
     return Scaffold(
-        //避免键盘弹出时，出现布局溢出（也可使用滚动布局处理，与android 同理）
+      //避免键盘弹出时，出现布局溢出（也可使用滚动布局处理，与android 同理）
         resizeToAvoidBottomInset: false,
         body: Stack(
           children: <Widget>[
@@ -26,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
               direction: Axis.vertical,
               children: <Widget>[
                 Expanded(
-                    // Container固定高度可以不使用Expanded
+                  // Container固定高度可以不使用Expanded
                     flex: 0,
                     child: Container(
                       height: 300,
@@ -75,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 Container(
-                    // color: Colors.amber, // color 与 decoration 互斥
+                  // color: Colors.amber, // color 与 decoration 互斥
                     margin: const EdgeInsets.symmetric(horizontal: 30),
                     padding: const EdgeInsets.all(20),
                     decoration: createCardDecoration(context),
@@ -123,7 +125,7 @@ class _LoginPageState extends State<LoginPage> {
                       InkWell(
                         onTap: () => {},
                         child:
-                            AssetsUtils.loadImageWH("logo_wechat.png", 40, 40),
+                        AssetsUtils.loadImageWH("logo_wechat.png", 40, 40),
                       ),
                       const SizedBox(
                         width: 100,
@@ -131,7 +133,7 @@ class _LoginPageState extends State<LoginPage> {
                       InkWell(
                         onTap: () => {},
                         child:
-                            AssetsUtils.loadImageWH("logo_weibo.png", 40, 40),
+                        AssetsUtils.loadImageWH("logo_weibo.png", 40, 40),
                       ),
                     ])
               ],
@@ -162,63 +164,116 @@ class _LoginWidget extends StatefulWidget {
   State<StatefulWidget> createState() => _LoginState();
 }
 
+///但这里的目标不是提供最佳实践，而是展示不同的实现方式，探索Form的操作性
+///下面分别使用了 TextFormField 的 Controller , onSaved（）+ validator 的使用
 class _LoginState extends State<_LoginWidget> {
-  var _name = "";
+  var _account = "";
   var _pwd = "";
+  var visiblePWD = true;
+  final _formKey = GlobalKey<FormState>();
+  final _accountController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        const TextField(
-          decoration: InputDecoration(
-            label: Text("用户名"),
-            prefixIcon: Icon(Icons.person, color: Colors.blue, size: 20),
-            suffixIcon: Icon(Icons.close, color: Colors.grey, size: 20),
+    return Form(
+      key: _formKey,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          TextFormField(
+            controller: _accountController,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            onSaved: (text) {
+              Log.i("onSaved :账号:$text");
+              _account = text!;
+            },
+            validator: (text) {
+              Log.i("validator :账号:$text");
+              return text!.trim().length >= 4 ? null : "账号最少4个字符";
+            },
+            keyboardType: TextInputType.visiblePassword,
+            decoration: InputDecoration(
+              label: const Text("账号"),
+              labelStyle: const TextStyle(color: Colors.blue),
+              prefixIcon:
+                  const Icon(Icons.person, color: Colors.blue, size: 20),
+              suffixIcon: InkWell(
+                onTap: () {
+                  _accountController.clear();
+                },
+                child: const Icon(Icons.close, color: Colors.grey, size: 20),
+              ),
+            ),
           ),
-        ),
-        const TextField(
-          decoration: InputDecoration(
-            label: Text("密码"),
-            hintText: "6-18位",
-            hintStyle: TextStyle(color: Colors.grey),
-            prefixIcon: Icon(Icons.lock, color: Colors.blue, size: 20),
-            suffixIcon: Icon(Icons.remove_red_eye_outlined,
-                color: Colors.grey, size: 20),
+          TextFormField(
+              onSaved: (text) {
+                Log.i("onSaved :密码:$text");
+                _pwd = text!;
+              },
+              validator: (text) {
+                Log.i("validator :密码:$text");
+                final t = text!.trim();
+                return t.length >= 6 && t.length <= 18 ? null : "密码为6~18个字符";
+              },
+              keyboardType: TextInputType.visiblePassword,
+              obscureText: visiblePWD,
+              decoration: InputDecoration(
+                label: const Text("密码"),
+                hintText: "6-18位",
+                hintStyle: const TextStyle(color: Colors.grey),
+                prefixIcon:
+                    const Icon(Icons.lock, color: Colors.blue, size: 20),
+                suffixIcon: InkWell(
+                  onTap: () {
+                    setState(() {
+                      visiblePWD = !visiblePWD;
+                    });
+                  },
+                  child: const Icon(Icons.remove_red_eye_outlined,
+                      color: Colors.grey, size: 20),
+                ),
+              )),
+          const SizedBox(
+            height: 50,
           ),
-        ),
-        const SizedBox(
-          height: 50,
-        ),
-        InkWell(
-            onTap: () => {},
-            child: Container(
-                height: 50,
-                decoration: const ShapeDecoration(
-                    color: Colors.lightBlue,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(30)))),
-                alignment: Alignment.center,
-                child: const Text(
-                  "登录",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ))),
-        const SizedBox(height: 15),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            const Text("还没有账号?",
-                style: TextStyle(color: Colors.black45, fontSize: 15)),
-            InkWell(
-              onTap: () => {},
-              child: const Text("去注册",
-                  style: TextStyle(color: Colors.lightBlue, fontSize: 15)),
-            )
-          ],
-        )
-      ],
+          InkWell(
+              onTap: () {
+                var _formState = _formKey.currentState;
+                Log.i("onTap :登录:$_formState");
+                if (null != _formState) {
+                  if (_formState.validate()) {
+                    _formState.save();
+                    Log.i("onTap :account,$_account, pwd:$_pwd");
+                  }
+                }
+              },
+              child: Container(
+                  height: 50,
+                  decoration: const ShapeDecoration(
+                      color: Colors.lightBlue,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(30)))),
+                  alignment: Alignment.center,
+                  child: const Text(
+                    "登录",
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  ))),
+          const SizedBox(height: 15),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              const Text("还没有账号?",
+                  style: TextStyle(color: Colors.black45, fontSize: 15)),
+              InkWell(
+                onTap: () => {},
+                child: const Text("去注册",
+                    style: TextStyle(color: Colors.lightBlue, fontSize: 15)),
+              )
+            ],
+          )
+        ],
+      ),
     );
   }
 }

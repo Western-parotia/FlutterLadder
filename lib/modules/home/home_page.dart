@@ -15,7 +15,11 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   final double _expandedHeight = 200;
   final ScrollController _scrollController = ScrollController();
   //监听scroll滚动 是否显示naviBar  ValueNotifier 监听单个变量值或类
@@ -128,6 +132,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: MediaQuery.removePadding(
         context: context,
