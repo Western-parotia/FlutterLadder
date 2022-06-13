@@ -4,8 +4,8 @@ import 'dart:convert';                                  // json 解析内置库
 import 'package:flutter/material.dart';
 import 'package:card_swiper/card_swiper.dart';          // 轮播图
 import 'package:wanandroid_app/net/api.dart';           // http请求
-import 'package:wanandroid_app/net/mj_http_tool.dart';
-import 'package:wanandroid_app/pages/home/model/home_model.dart';  // 封装的http请求类
+import 'package:wanandroid_app/net/mj_http_tool.dart';  // 封装的http请求类
+import 'package:wanandroid_app/pages/home/model/home_model.dart';
 import 'package:wanandroid_app/pages/webView/hd_web_page.dart';
 // 主Widget
 class HDHomePage extends StatefulWidget {

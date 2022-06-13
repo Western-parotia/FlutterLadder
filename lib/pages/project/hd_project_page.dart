@@ -39,13 +39,13 @@ class HDProjectPageState extends State<HDProjectPage> with SingleTickerProviderS
       ),
     );
   }
-  // 自定义顶部导航条
+  // 自定义顶部导航条,不自定义会有原来的 Title
   PreferredSizeWidget getCustomerAppBar (BuildContext context) {
     return PreferredSize(
         child: Container(
           alignment: Alignment.center,
           child: TabBar(
-          //isScrollable属性会使Tab居中
+          // isScrollable属性会使Tab居中
           isScrollable: true,
           controller: _tabController,
           indicatorColor: Colors.white,
@@ -53,7 +53,7 @@ class HDProjectPageState extends State<HDProjectPage> with SingleTickerProviderS
               borderRadius: BorderRadius.circular(2),
               color: Colors.white),
           indicatorSize: TabBarIndicatorSize.label,
-          indicatorPadding: EdgeInsets.only(left: 10,right: 10,top: 42,bottom: 5),
+          indicatorPadding: EdgeInsets.only(left: 10,right: 10,top: 42,bottom: 5), // 设置滚动条距离title的距离
           indicatorWeight: 5,
           labelStyle: const TextStyle(fontSize: 20),
           tabs: getTabs(),

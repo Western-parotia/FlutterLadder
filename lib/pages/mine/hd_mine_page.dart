@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:wanandroid_app/pages/login/hd_login_page.dart';
 
-/// 主Widget类
+// 主Widget类
 class HDMinePage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => HDMinePageState();
 }
 
-/// HDMinePage状态管理类
+// HDMinePage状态管理类
 class HDMinePageState extends State<HDMinePage> {
-  /// 列表标题数组
+  // 列表标题数组
   List<String> titles = const ["收藏","黑夜模式","色彩主体","设置","检查更新"];
 
-  /// 列表图标数组
+  // 列表图标数组
   List<Icon> icons = const [Icon(Icons.favorite,color:Colors.red,),
     Icon(Icons.enhance_photo_translate,color:Colors.red,),
     Icon(Icons.family_restroom,color:Colors.red,),
@@ -24,8 +24,7 @@ class HDMinePageState extends State<HDMinePage> {
     return Scaffold(
       body: CustomScrollView (
         slivers: <Widget>[
-          ///  SliverAppBar 和  SliverToBoxAdapter 互斥，SliverToBoxAdapter没有导航
-
+          //  SliverAppBar 和  SliverToBoxAdapter 互斥，SliverToBoxAdapter没有导航
           // AppBar，包含一个导航栏.
           SliverAppBar (
             pinned: true, // 滑动到顶端时会固定住
@@ -35,7 +34,7 @@ class HDMinePageState extends State<HDMinePage> {
             ),
           ),
 
-          /// 自定义视图
+          // 自定义视图
           // SliverToBoxAdapter(
           //   child: getTopHeaderViewV2(),
           // ),
@@ -50,7 +49,7 @@ class HDMinePageState extends State<HDMinePage> {
     //return
   }
 
-  /// 顶部 headerView
+  // 顶部 headerView
    Widget getTopHeaderView () {
     return Stack(
       alignment: Alignment.topCenter,
@@ -72,7 +71,7 @@ class HDMinePageState extends State<HDMinePage> {
     );
    }
 
-   /// 顶部 headerView 第二个版本
+   // 顶部 headerView 第二个版本
    Widget getTopHeaderViewV2 () {
     return Stack(
       alignment: Alignment.topCenter,
@@ -91,7 +90,7 @@ class HDMinePageState extends State<HDMinePage> {
     );
    }
 
-   /// 顶部 headerView上面登录图标、文案
+   // 顶部 headerView上面登录图标、文案
    Widget getIconButton () {
     return Container(
       alignment: Alignment.topCenter,
@@ -106,7 +105,7 @@ class HDMinePageState extends State<HDMinePage> {
     );
    }
 
-   /// 顶部 headerView头像Icon
+   // 顶部 headerView头像Icon
    Widget getCirculImage () {
      return ClipOval(
        child: Image.asset(
@@ -118,7 +117,7 @@ class HDMinePageState extends State<HDMinePage> {
      );
    }
 
-   /// 下面列表视图--Cell
+   // 下面列表视图--Cell
    Widget getListView (int index) {
     return SizedBox (
       height: 50,
