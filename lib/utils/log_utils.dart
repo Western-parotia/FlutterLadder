@@ -15,7 +15,8 @@ class Log {
   }
 
   static void i(dynamic message) {
-    _logger.i(message);
+    // _logger.i(message);
+    print(message + "\n");
   }
 
   static void w(dynamic message) {
