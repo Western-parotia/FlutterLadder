@@ -18,7 +18,9 @@ dependencies:
   dio_cookie_manager: ^2.0.0
   path_provider: ^2.0.2
   json_annotation: ^4.1.0
-
+  flukit: ^2.0.0
+  shared_preferences: ^2.0.15
+  fluttertoast: ^8.0.8
 
 dev_dependencies:
   flutter_test:

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wanandroid_app/pages/login/hd_login_page.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 // 主Widget类
 class HDMinePage extends StatefulWidget {
   @override
@@ -11,13 +11,32 @@ class HDMinePage extends StatefulWidget {
 class HDMinePageState extends State<HDMinePage> {
   // 列表标题数组
   List<String> titles = const ["收藏","黑夜模式","色彩主体","设置","检查更新"];
-
   // 列表图标数组
   List<Icon> icons = const [Icon(Icons.favorite,color:Colors.red,),
     Icon(Icons.enhance_photo_translate,color:Colors.red,),
     Icon(Icons.family_restroom,color:Colors.red,),
     Icon(Icons.settings,color:Colors.red),
     Icon(Icons.update,color:Colors.red,)];
+  String userAccount = "";
+  @override
+  void initState() {
+    super.initState();
+   // getUserAccountInfor();
+    // 延迟300毫秒执行
+    Future.delayed(Duration(milliseconds:300 ),(){
+      getUserAccountInfor();
+    });
+  }
+  void getUserAccountInfor() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getString("userAccount") != null) {
+      print("本地存储的值：${prefs.getString("userAccount")}");
+      userAccount = prefs.getString("userAccount")!;
+      setState((){
+      });
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -62,9 +81,13 @@ class HDMinePageState extends State<HDMinePage> {
           child: getIconButton(),
           onTap: (){
             print("这个是封装的按钮");
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return HDLoginPage();
-            }));
+            if (userAccount.length > 0) { // 跳转到设置页面
+
+            } else {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return HDLoginPage();
+              }));
+            }
           },
         )),
       ],
@@ -99,7 +122,7 @@ class HDMinePageState extends State<HDMinePage> {
         children: [
           Padding(padding: EdgeInsets.only(top: 5,bottom: 5),child:
           getCirculImage(),),
-          Text("点击登录",textAlign: TextAlign.center,)
+          Text(userAccount.length > 0 ? userAccount :"点击登录",textAlign: TextAlign.center,)
         ],
       ),
     );

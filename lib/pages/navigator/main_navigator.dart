@@ -26,7 +26,12 @@ class HDMainNavigatorState extends State<HDMainNavigator> {
   Widget build(BuildContext context) {
      return WillPopScope (
        child: Scaffold(
-         body: appPages[currentIndex],
+        // body: appPages[currentIndex],
+         // IndexedStack: tabbar切换页面时进行缓存
+         body: IndexedStack(
+           index: currentIndex,
+           children: appPages,
+         ),
          bottomNavigationBar: BottomNavigationBar(
            items: const [BottomNavigationBarItem(label: "首页",icon: Icon(Icons.home)),
              BottomNavigationBarItem(label: "项目", icon: Icon(Icons.list)),

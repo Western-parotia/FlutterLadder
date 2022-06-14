@@ -4,16 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:wanandroid_app/pages/webView/hd_web_page.dart';
 // Model工具类
 import 'dart:convert';                                            // json 解析
+import 'package:flukit/flukit.dart';                              // 页面缓存
 import 'package:wanandroid_app/net/api.dart';                     // api接口类
 import 'package:wanandroid_app/net/mj_http_tool.dart';            // http请求工具类
 import 'package:wanandroid_app/pages/home/model/home_model.dart'; // 数据model
+
 
 class HDQuestionPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => HDQuestionPageState();
 }
 
-class HDQuestionPageState extends State<HDQuestionPage> {
+class HDQuestionPageState extends State<HDQuestionPage>  {
   int currentPage = 0;       // 当前页
   List dataArray = [];       // 数据源数组
   bool no_more_data = false; // 没有更多数据
@@ -33,7 +35,7 @@ class HDQuestionPageState extends State<HDQuestionPage> {
   }
   // 请求数据
   void httpGetQuestionData(int page) {
-      MJHttpTool(url: Api.question(page)).requestData((dynamic result) {
+      MJHttpTool().getRequestData(Api.question(page),(dynamic result) {
       // json 转字典
       Map<String, dynamic> jsonMap = json.decode(result);
       // datasList 字典数组,非model
@@ -111,22 +113,27 @@ class HDQuestionPageState extends State<HDQuestionPage> {
   // 自定义列表项
   Widget getItemBuilder(int index) {
     HomeModel homeModel = dataArray[index];
-    return GestureDetector(
-      onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return HDWebViewPage(url: homeModel.link,title: "${homeModel.title}",isLocalUrl: false,);
-        }));
-      },
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),),
-        elevation: 2,
-        child: Container(
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: Colors.white),
-          child: getQuestioinItem(index),
+    // 用 KeepAliveWrapper 将列表项包裹实现页面缓存
+    return KeepAliveWrapper(
+      keepAlive: true,
+      child: GestureDetector(
+        onTap: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return HDWebViewPage(url: homeModel.link,title: "${homeModel.title}",isLocalUrl: false,);
+          }));
+        },
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10.0)),),
+          elevation: 2,
+          child: Container(
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: Colors.white),
+            child: getQuestioinItem(index),
+          ),
         ),
       ),
     );
+   // return
   }
 
   Widget getQuestioinItem(int index) {

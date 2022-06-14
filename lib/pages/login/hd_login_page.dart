@@ -1,10 +1,16 @@
 //
+//import 'dart:html';
 import 'dart:math';
+import 'dart:convert';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:wanandroid_app/net/mj_http_tool.dart';
 import 'package:wanandroid_app/utils/screen_utils.dart';
-
+import 'package:wanandroid_app/net/api.dart';           // http请求
 import 'hd_arc_view.dart';
+import 'package:fluttertoast/fluttertoast.dart';        // 登录提示
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wanandroid_app/pages/login/hd_register_page.dart';
 
 
 class HDLoginPage extends StatefulWidget {
@@ -15,7 +21,7 @@ class HDLoginPageState extends State<HDLoginPage> {
   // 头部蓝色背景
   double topBgViewH = 260;
   // 账号密码输入View 高度
-  double inputViewH = 250;
+  //double inputViewH = 250;
   // 登录图标高度
   double loginIconH = 80;
   // 关闭按钮高度
@@ -29,6 +35,14 @@ class HDLoginPageState extends State<HDLoginPage> {
   TextEditingController passwordController = TextEditingController()..addListener(() {
 
   });
+  // 定义GlobalKey 服务于从子Widget获取父Widget的 state,然后调用state中的一些方法
+  final GlobalKey _formKey = GlobalKey<FormState>();
+  @override
+  void dispose() {
+    super.dispose();
+    accountController.dispose();
+    passwordController.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -82,7 +96,7 @@ class HDLoginPageState extends State<HDLoginPage> {
   // 账号密码输入View
   Widget getInputView () {
     return Container(
-      height: inputViewH,
+      //height: inputViewH,
       margin: EdgeInsets.only(left: 30,right: 30),
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -91,46 +105,101 @@ class HDLoginPageState extends State<HDLoginPage> {
         boxShadow: [BoxShadow(color: Colors.black12, offset: Offset(1.0, 1.0), blurRadius: 15, spreadRadius: 3.0) ],
       ),
       //color: Colors.white,
-      padding: EdgeInsets.only(left: 10,right: 10,top: 15),
-      child: Column (
-         children: [
+      padding: EdgeInsets.only(left: 10,right: 10,top: 15,bottom: 20),
+      child:Form(
+        key: _formKey,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        child: Column (
+          children: [
             Container(
-              height: 50,
               child: getAccountTextField(),
             ),
-           Container(
-             height: 50,
-             child: getPasswordTextField(),
-           ),
-
-           Container(height: 40,margin: EdgeInsets.only(left: 10,top: 40,right: 10,bottom: 15),child: Center(
-             child:ElevatedButton(child: const Text("登录",style: TextStyle(color: Colors.white),),style: ElevatedButton.styleFrom(
-                 minimumSize: const Size(double.infinity, 40),
-                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))
-             ),onPressed:() {
-               // 登录按钮点击
-             },)),),
-           RichText(text: TextSpan(
-             text: "还没账号？",
-             style: TextStyle(fontSize: 14,color: Colors.black),
-             children: [
-               TextSpan(
-                   text: "去注册",
-                   style: TextStyle(fontSize: 14,color: Colors.blue),
-                   recognizer: TapGestureRecognizer()..onTap = () {
-                     print('点击了去注册');
-                   },)
-             ]
-           ))
-         ],
+            Container(
+              child: getPasswordTextField(),
+            ),
+            Container(height: 40,margin: EdgeInsets.only(left: 10,top: 40,right: 10,bottom: 15),child: Center(
+                child:ElevatedButton(child: const Text("登录",style: TextStyle(color: Colors.white),),style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(double.infinity, 40),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))
+                ),onPressed:() {
+                  // 登录按钮点击
+                  if ((_formKey.currentState as FormState).validate()) {
+                      print("验证成功");
+                      String username = accountController.value.text;
+                      String password = passwordController.value.text;
+                      httpRequestLogin(); // 开始登录
+                      if (username == "hello" && password == "123456") {
+                        print("登陆成功");
+                      } else {
+                        print("登陆失败");
+                      }
+                  } else {
+                    print("验证失败");
+                  }
+                },)),),
+            RichText(text: TextSpan(
+                text: "还没账号？",
+                style: TextStyle(fontSize: 14,color: Colors.black),
+                children: [
+                  TextSpan(
+                    text: "去注册",
+                    style: TextStyle(fontSize: 14,color: Colors.blue),
+                    recognizer: TapGestureRecognizer()..onTap = () {
+                      print('点击了去注册');
+                      Navigator.push(context, MaterialPageRoute(builder: (context) {
+                        return HDRegisterPage();
+                      }));
+                      // Navigator.push(context, route)
+                    },)
+                ]
+            ))
+          ],
+        ),
       ),
+
     );
   }
 
+  void httpRequestLogin() {
+    Map<String, String> params = {
+      "username": accountController.text,
+      "password": passwordController.text
+    };
+    MJHttpTool().postFormRequestData(Api.login, params, (value) async {
+      Map<String, dynamic> jsonMap = json.decode(value);
+      int errorCode = jsonMap["errorCode"];
+      String errorMsg = jsonMap["errorMsg"];
+      if (errorCode == 0) {
+        print("登录成功");
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString("userAccount", accountController.text);
+        prefs.setString("userPassword", passwordController.text);
+        Fluttertoast.showToast(msg: "登录成功！", gravity: ToastGravity.CENTER);
+        Navigator.pop(context);
+      } else {
+        Fluttertoast.showToast(msg: errorMsg, gravity: ToastGravity.CENTER);
+      }
+    }, (value) => {
+
+    }, () {
+
+    });
+  }
   // 账号输入框
   Widget getAccountTextField() {
     return TextFormField(
+      //autofocus: true,
       controller: accountController,
+      validator: (value) {
+        // trim 去除字符串左右两边的空格
+        if (value != null && value.trim().length > 6) {
+          print("校验通过");
+          return null; //代表校验通过
+        } else {
+          print("用户名不能少于6位");
+          return "用户名不能少于6位";
+        }
+      },
       decoration: const InputDecoration(
           hintText: '用户名',
           hintStyle: TextStyle(color: Colors.grey),
@@ -147,6 +216,16 @@ class HDLoginPageState extends State<HDLoginPage> {
           hintStyle: TextStyle(color: Colors.grey),
           prefixIcon: Icon(Icons.lock,color: Colors.blue),
           suffixIcon: Icon(Icons.lock)),
+      validator: (value) {
+        // trim 去除字符串左右两边的空格
+        if (value != null && value.trim().length > 6) {
+          print("校验通过");
+          return null; //代表校验通过
+        } else {
+          print("用户名不能少于6位");
+          return "密码不能少于6位";
+        }
+      },
     );
   }
 

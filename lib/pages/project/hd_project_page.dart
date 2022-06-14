@@ -32,7 +32,7 @@ class HDProjectPageState extends State<HDProjectPage> with SingleTickerProviderS
       length: tabArry.length,
       child: Scaffold(
         appBar: getCustomerAppBar(context),
-        body: TabBarView(
+        body: TabBarView( // 页面缓存解决方案：https://blog.csdn.net/zhumj_zhumj/article/details/102700305
           controller: _tabController,
           children: [HDQuestionPage(),HDRecommendPage()],
         )

@@ -29,7 +29,7 @@ class HDHomePageState extends State<HDHomePage> {
   }
   void httpGetData(int page) {
 // result 请求数据返回的Json字符串
-    MJHttpTool(url: Api.question(page)).requestData((dynamic result) {
+    MJHttpTool().getRequestData(Api.question(page),(dynamic result) {
       // json 转字典
       Map<String, dynamic> jsonMap = json.decode(result);
       // datasList 字典数组,非model
