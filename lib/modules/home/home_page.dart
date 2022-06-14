@@ -1,12 +1,15 @@
 import 'dart:ui';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wanandroid_app/modules/home/model/article_model.dart';
 import 'package:wanandroid_app/modules/home/model/banner_model.dart';
 import 'package:wanandroid_app/modules/home/widget/article_item_widget.dart';
 import 'package:wanandroid_app/modules/home/widget/banner_widget.dart';
+
+import '../../net/http.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -36,9 +39,8 @@ class _HomePageState extends State<HomePage>
 
   // 获取banner数据
   getBannerData() async {
-    String url = 'https://www.wanandroid.com/banner/json';
     try {
-      Response response = await Dio().get(url);
+      Response response = await Dio().get(ServiceApiConstants.login);
       _bannerList = response.data['data']
           .map<BannerModel>((item) => BannerModel.fromJsonMapToModel(item))
           .toList();
@@ -50,9 +52,8 @@ class _HomePageState extends State<HomePage>
 
   // 置顶文章
   getTopArticlesData() async {
-    String url = 'https://www.wanandroid.com/article/top/json';
     try {
-      Response response = await Dio().get(url);
+      Response response = await Dio().get(ServiceApiConstants.topJson);
       _topArticleList = response.data['data']
           .map<ArticleModel>((item) => ArticleModel().fromJsonMapToModel(item))
           .toList();
@@ -64,9 +65,9 @@ class _HomePageState extends State<HomePage>
 
   // 文章，目前不做分页加载
   getArticlesData() async {
-    String url = 'https://www.wanandroid.com/article/list/$_page/json';
     try {
-      Response response = await Dio().get(url);
+      Response response = await Dio()
+          .get(ServiceApiConstants.combinationUrl("/article/list/$_page/json"));
       List<ArticleModel> dataModelList = response.data['data']['datas']
           .map<ArticleModel>((item) => ArticleModel().fromJsonMapToModel(item))
           .toList();

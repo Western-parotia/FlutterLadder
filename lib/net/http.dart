@@ -21,9 +21,16 @@ class HttpClient {
   }
 }
 
-class ServiceApiConstants{
+class ServiceApiConstants {
   static const String _domain = "https://www.wanandroid.com";
 
+  static String combinationUrl(String path) {
+    return _domain + path;
+  }
 
-  static const String feeds = _domain + "/article/listproject/";
+  static String bannerJson = combinationUrl("/banner/json");
+
+  static String topJson = combinationUrl("/article/top/json");
+
+  static String login = combinationUrl("/user/login");
 }
