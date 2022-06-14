@@ -40,7 +40,8 @@ class _HomePageState extends State<HomePage>
   // 获取banner数据
   getBannerData() async {
     try {
-      Response response = await Dio().get(ServiceApiConstants.login);
+      Response response =
+          await HttpClient.getDio().get(ServiceApiConstants.login);
       _bannerList = response.data['data']
           .map<BannerModel>((item) => BannerModel.fromJsonMapToModel(item))
           .toList();
@@ -53,7 +54,8 @@ class _HomePageState extends State<HomePage>
   // 置顶文章
   getTopArticlesData() async {
     try {
-      Response response = await Dio().get(ServiceApiConstants.topJson);
+      Response response =
+          await HttpClient.getDio().get(ServiceApiConstants.topJson);
       _topArticleList = response.data['data']
           .map<ArticleModel>((item) => ArticleModel().fromJsonMapToModel(item))
           .toList();
@@ -66,7 +68,7 @@ class _HomePageState extends State<HomePage>
   // 文章，目前不做分页加载
   getArticlesData() async {
     try {
-      Response response = await Dio()
+      Response response = await HttpClient.getDio()
           .get(ServiceApiConstants.combinationUrl("/article/list/$_page/json"));
       List<ArticleModel> dataModelList = response.data['data']['datas']
           .map<ArticleModel>((item) => ArticleModel().fromJsonMapToModel(item))
