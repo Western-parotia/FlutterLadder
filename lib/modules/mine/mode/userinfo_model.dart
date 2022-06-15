@@ -1,48 +1,5 @@
-/// data : {"admin":false,"coinCount":33,"email":"","icon":"","id":132349,"nickname":"juzixs","password":"","publicName":"juzixs","token":"","type":0,"username":"juzixs"}
-/// errorCode : 0
-/// errorMsg : ""
-
-class UserinfoModel {
-  UserinfoModel({
-    this.data,
-    this.errorCode,
-    this.errorMsg,
-  });
-
-  UserinfoModel.fromJson(dynamic json) {
-    data = json['data'] != null ? Data.fromJson(json['data']) : null;
-    errorCode = json['errorCode'];
-    errorMsg = json['errorMsg'];
-  }
-
-  Data? data;
-  int? errorCode;
-  String? errorMsg;
-
-  UserinfoModel copyWith({
-    Data? data,
-    int? errorCode,
-    String? errorMsg,
-  }) =>
-      UserinfoModel(
-        data: data ?? this.data,
-        errorCode: errorCode ?? this.errorCode,
-        errorMsg: errorMsg ?? this.errorMsg,
-      );
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    if (data != null) {
-      map['data'] = data?.toJson();
-    }
-    map['errorCode'] = errorCode;
-    map['errorMsg'] = errorMsg;
-    return map;
-  }
-}
-
 /// admin : false
-/// coinCount : 33
+/// coinCount : 46
 /// email : ""
 /// icon : ""
 /// id : 132349
@@ -53,8 +10,8 @@ class UserinfoModel {
 /// type : 0
 /// username : "juzixs"
 
-class Data {
-  Data({
+class UserinfoModel {
+  UserinfoModel({
     this.admin,
     this.coinCount,
     this.email,
@@ -68,7 +25,7 @@ class Data {
     this.username,
   });
 
-  Data.fromJson(dynamic json) {
+  UserinfoModel.fromJson(dynamic json) {
     admin = json['admin'];
     coinCount = json['coinCount'];
     email = json['email'];
@@ -81,7 +38,6 @@ class Data {
     type = json['type'];
     username = json['username'];
   }
-
   bool? admin;
   int? coinCount;
   String? email;
@@ -94,7 +50,7 @@ class Data {
   int? type;
   String? username;
 
-  Data copyWith({
+  UserinfoModel copyWith({
     bool? admin,
     int? coinCount,
     String? email,
@@ -107,7 +63,7 @@ class Data {
     int? type,
     String? username,
   }) =>
-      Data(
+      UserinfoModel(
         admin: admin ?? this.admin,
         coinCount: coinCount ?? this.coinCount,
         email: email ?? this.email,
@@ -136,4 +92,5 @@ class Data {
     map['username'] = username;
     return map;
   }
+
 }

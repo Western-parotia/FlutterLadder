@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import '../utils/log_utils.dart';
 
 /// data : ""
@@ -7,21 +5,21 @@ import '../utils/log_utils.dart';
 /// errorMsg : ""
 
 class BasicRootModel<T> {
-  BasicRootModel({this.data, this.errorCode, this.errorMsg});
+  BasicRootModel(
+      {this.data, this.errorCode, this.errorMsg, this.localErrorCode});
 
   T? data;
   int? errorCode;
   String? errorMsg;
+  int? localErrorCode;
 
-  BasicRootModel.fromJsonT(String json, T? Function(dynamic) format) {
-    dynamic jd = jsonDecode(json);
+  BasicRootModel.fromJsonT(dynamic jd, T? Function(dynamic) format) {
     data = format(jd['data']);
     errorCode = jd['errorCode'] ?? -1;
     errorMsg = jd['errorMsg'] ?? "empty";
   }
 
-  BasicRootModel.fromJsonBasic(String json) {
-    dynamic jd = jsonDecode(json);
+  BasicRootModel.fromJsonBasic(dynamic jd) {
     data = jd['data'];
     errorCode = jd['errorCode'] ?? -1;
     errorMsg = jd['errorMsg'] ?? "empty";
@@ -30,7 +28,6 @@ class BasicRootModel<T> {
   static BasicRootModel<List<OBJ?>>? formJsonList<OBJ>(
       String json, OBJ Function(dynamic) format) {
     return BasicRootModel.fromJsonT(json, (elements) {
-      Log.i("elements:$elements");
       List<OBJ> list = [];
       for (final e in elements) {
         list.add(format(e));

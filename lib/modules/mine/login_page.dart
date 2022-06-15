@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:wanandroid_app/net/http.dart';
 
 import '../../global/images_path.dart';
 import '../../utils/log_utils.dart';
@@ -170,6 +171,11 @@ class _LoginState extends State<_LoginWidget> {
   final _formKey = GlobalKey<FormState>();
   final _accountController = TextEditingController();
 
+  void _login() async {
+    var res = await HttpClient.getDio().post(ApiPath.login,
+        queryParameters: {"username": _account, "password": _pwd});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -236,11 +242,11 @@ class _LoginState extends State<_LoginWidget> {
           InkWell(
               onTap: () {
                 var _formState = _formKey.currentState;
-                Log.i("onTap :登录:$_formState");
                 if (null != _formState) {
                   if (_formState.validate()) {
                     _formState.save();
                     Log.i("onTap :account,$_account, pwd:$_pwd");
+                    _login();
                   }
                 }
               },
