@@ -15,7 +15,7 @@ class MainPage extends StatefulWidget {
 
 class MainState extends State<MainPage> {
   var _index = 0;
-  var _tabs = const[ MainHomePage(), MainTwoPage(), MainMyPage()];
+  final _tabs = const [MainHomePage(), MainTwoPage(), MainMyPage()];
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +26,14 @@ class MainState extends State<MainPage> {
           BottomNavigationBarItem(icon: Icon(Icons.add_call), label: "二页"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "我的"),
         ],
+        onTap: (index) {
+          setState(() {
+            _index = index;
+          });
+        },
+        currentIndex: _index,
       ),
-      body:_tabs[_index],
+      body: _tabs[_index],
     );
   }
 }

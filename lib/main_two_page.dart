@@ -13,6 +13,6 @@ class MainTwoPage extends StatefulWidget {
 class MainTwoState extends State<MainTwoPage> {
   @override
   Widget build(BuildContext context) {
-    return const Text("首页");
+    return const Text("二页");
   }
 }
