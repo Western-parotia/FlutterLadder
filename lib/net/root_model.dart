@@ -1,5 +1,3 @@
-import '../utils/log_utils.dart';
-
 /// data : ""
 /// errorCode : 0
 /// errorMsg : ""
@@ -13,26 +11,33 @@ class NetCode {
   static const NET_ERROR_DATA_NULl = -9202;
 }
 
-class BasicRootModel<T> {
-  T? data;
+class BasicRootModel {
   int errorCode;
   String errorMsg;
 
   BasicRootModel({required this.errorCode, required this.errorMsg});
 
-  BasicRootModel.fromJsonT(dynamic jd, T? Function(dynamic) format)
+  BasicRootModel.fromJson(dynamic jd)
+      : errorCode = jd['errorCode'] ?? -1,
+        errorMsg = jd['errorMsg'] ?? "empty";
+}
+
+class BasicRootModelT<T> extends BasicRootModel {
+  T? data;
+
+  BasicRootModelT(int c, String m) : super(errorCode: c, errorMsg: m);
+
+  BasicRootModelT.fromJsonT(dynamic jd, T? Function(dynamic) format)
       : data = format(jd['data']),
-        errorCode = jd['errorCode'] ?? -1,
-        errorMsg = jd['errorMsg'] ?? "empty";
+        super.fromJson(jd);
 
-  BasicRootModel.fromJsonBasic(dynamic jd)
+  BasicRootModelT.fromJsonBasic(dynamic jd)
       : data = jd['data'],
-        errorCode = jd['errorCode'] ?? -1,
-        errorMsg = jd['errorMsg'] ?? "empty";
+        super.fromJson(jd);
 
-  static BasicRootModel<List<OBJ>> formJsonList<OBJ>(
+  static BasicRootModelT<List<OBJ>> formJsonList<OBJ>(
       dynamic json, OBJ Function(dynamic) format) {
-    return BasicRootModel.fromJsonT(json, (elements) {
+    return BasicRootModelT.fromJsonT(json, (elements) {
       List<OBJ> list = [];
       for (final e in elements) {
         list.add(format(e));
@@ -86,20 +91,3 @@ const basicJsonInt = '''{
   "errorMsg": "111"
 }''';
 
-void main() {
-  var userRes = BasicRootModel<UserInfo>.fromJsonT(
-      basicJsonObj, (x) => UserInfo.formJson(x));
-
-  // Log.i("userRes:${userRes.errorCode ?? "====null===="}");
-  // Log.i("userRes:${userRes.data?.username ?? "====null===="}");
-  // Log.i("userRes:${userRes.errorMsg ?? "====null===="}");
-
-  var animalsRes =
-      BasicRootModel.formJsonList(basicJsonList, (p0) => Animals.formJson(p0));
-  Log.i("animalsRes:${animalsRes?.data?.length ?? "====null===="}");
-
-  var name = BasicRootModel<String>.fromJsonBasic(basicJsonString);
-  var age = BasicRootModel<int>.fromJsonBasic(basicJsonInt);
-
-  Log.i("name:${name.data} ,age:${age.data}====null====");
-}

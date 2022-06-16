@@ -14,7 +14,7 @@ class BasicRepository {
 }
 
 bool _checkResSuccess(
-    BasicRootModel root, Function(int code, String msg)? onError) {
+    BasicRootModelT root, Function(int code, String msg)? onError) {
   if (root.errorCode != NetCode.NET_SUCCESS) {
     onError?.call(root.errorCode, root.errorMsg);
     return false;
@@ -51,7 +51,7 @@ extension FutureExt on Future {
         }
 
         //还没取出data，这里是 res
-        var root = BasicRootModel.fromJsonT(value.data, (p0) => format(p0));
+        var root = BasicRootModelT.fromJsonT(value.data, (p0) => format(p0));
         if (_checkResSuccess(root, onError)) {
           onSuccess(root.data!);
         }
@@ -75,15 +75,6 @@ extension FutureExt on Future {
 }
 
 void main() {
-  BasicRepository.post(ApiPath.login, {
-    'username': "juzixs",
-    'password': "123456",
-  }).thenObj<List<UserInfo>>(
-    (data) => data.formJson((p0) => UserInfo.formJson(p0)),
-    onSuccess: (value) {
-      print("==1${value..length}");
-    },
-  );
 
   BasicRepository.post(ApiPath.login, {
     'username': "juzixs",
