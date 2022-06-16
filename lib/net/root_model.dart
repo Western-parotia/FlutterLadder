@@ -1,76 +1,45 @@
-// ignore_for_file: constant_identifier_names
-
-import 'dart:convert';
+import '../utils/log_utils.dart';
 
 /// data : ""
 /// errorCode : 0
 /// errorMsg : ""
 
 class NetCode {
-  static const int DEFAULT = -9000;
-  static const int NET_ERROR = -9001;
-  static const int NET_ERROR_PARSE = -9002;
-  static const int NET_NO_CODE = -9003;
+  static const NET_DEFAULT = -9000;
+  static const NET_SUCCESS = 0;
+
+  static const NET_ERROR = -9200;
+  static const NET_ERROR_PARSE = -9201;
+  static const NET_ERROR_DATA_NULl = -9202;
 }
 
-const _DATA_KEY = 'data';
+class BasicRootModel<T> {
+  T? data;
+  int errorCode;
+  String errorMsg;
 
-class WanAndroidRootRes {
-  final int errorCode;
-  final String errorMsg;
+  BasicRootModel({required this.errorCode, required this.errorMsg});
 
-  WanAndroidRootRes.parse(Map map)
-      : errorCode = map['errorCode'] ?? NetCode.NET_NO_CODE,
-        errorMsg = map['errorMsg'] ?? "no-msg";
-}
+  BasicRootModel.fromJsonT(dynamic jd, T? Function(dynamic) format)
+      : data = format(jd['data']),
+        errorCode = jd['errorCode'] ?? -1,
+        errorMsg = jd['errorMsg'] ?? "empty";
 
-class WanAndroidRootDynamicRes extends WanAndroidRootRes {
-  final dynamic data;
+  BasicRootModel.fromJsonBasic(dynamic jd)
+      : data = jd['data'],
+        errorCode = jd['errorCode'] ?? -1,
+        errorMsg = jd['errorMsg'] ?? "empty";
 
-  WanAndroidRootDynamicRes.parse(Map<String, dynamic> map)
-      : data = map[_DATA_KEY],
-        super.parse(map);
-}
-
-class WanAndroidRootObjRes<T> extends WanAndroidRootRes {
-  final T data;
-
-  WanAndroidRootObjRes.parse(
-      Map<String, dynamic> map, T Function(dynamic) format)
-      : data = _p(map, format),
-        super.parse(map);
-
-  static T _p<T>(Map<String, dynamic> map, T Function(dynamic) format) {
-    return format(map[_DATA_KEY]);
+  static BasicRootModel<List<OBJ>> formJsonList<OBJ>(
+      dynamic json, OBJ Function(dynamic) format) {
+    return BasicRootModel.fromJsonT(json, (elements) {
+      List<OBJ> list = [];
+      for (final e in elements) {
+        list.add(format(e));
+      }
+      return list;
+    });
   }
-}
-
-class WanAndroidRootListRes<T> extends WanAndroidRootRes {
-  final List<T> data;
-
-  WanAndroidRootListRes.parse(
-      Map<String, dynamic> map, T Function(dynamic) format)
-      : data = _p(map, format),
-        super.parse(map);
-
-  static List<T> _p<T>(Map<String, dynamic> map, T Function(dynamic) format) {
-    List<T> l = [];
-    List d = map[_DATA_KEY];
-    for (final e in d) {
-      l.add(format(e));
-    }
-    return l;
-  }
-}
-
-void main() {
-  var userRes = WanAndroidRootObjRes.parse(
-      jsonDecode(basicJsonObj), (p0) => UserInfo.formJson(p0));
-  print(userRes.data);
-
-  var animalsRes = WanAndroidRootListRes.parse(
-      jsonDecode(basicJsonList), (p0) => Animals.formJson(p0));
-  print(animalsRes.data);
 }
 
 class UserInfo {
@@ -95,6 +64,7 @@ class Animals {
 
 const basicJsonObj = '''{
       "data": {"username":"juzixs"},
+  "list":["dog","cat","ostrich"],
   "errorCode": 99900,
   "errorMsg": "111"
 }''';
@@ -115,3 +85,21 @@ const basicJsonInt = '''{
   "errorCode": 99900,
   "errorMsg": "111"
 }''';
+
+void main() {
+  var userRes = BasicRootModel<UserInfo>.fromJsonT(
+      basicJsonObj, (x) => UserInfo.formJson(x));
+
+  // Log.i("userRes:${userRes.errorCode ?? "====null===="}");
+  // Log.i("userRes:${userRes.data?.username ?? "====null===="}");
+  // Log.i("userRes:${userRes.errorMsg ?? "====null===="}");
+
+  var animalsRes =
+      BasicRootModel.formJsonList(basicJsonList, (p0) => Animals.formJson(p0));
+  Log.i("animalsRes:${animalsRes?.data?.length ?? "====null===="}");
+
+  var name = BasicRootModel<String>.fromJsonBasic(basicJsonString);
+  var age = BasicRootModel<int>.fromJsonBasic(basicJsonInt);
+
+  Log.i("name:${name.data} ,age:${age.data}====null====");
+}
