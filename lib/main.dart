@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:wanandroid_app/main_page.dart';
+
+import 'main/main_page.dart';
 
 void main() {
   runApp(const WanAndroidAPP());

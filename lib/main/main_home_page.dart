@@ -6,11 +6,11 @@ class MainHomePage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return MainHomeState();
+    return _MainHomeState();
   }
 }
 
-class MainHomeState extends State<MainHomePage> {
+class _MainHomeState extends State<MainHomePage> {
   @override
   Widget build(BuildContext context) {
     return const Text("首页");

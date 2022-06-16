@@ -6,11 +6,11 @@ class MainTwoPage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return MainTwoState();
+    return _MainTwoState();
   }
 }
 
-class MainTwoState extends State<MainTwoPage> {
+class _MainTwoState extends State<MainTwoPage> {
   @override
   Widget build(BuildContext context) {
     return const Text("二页");

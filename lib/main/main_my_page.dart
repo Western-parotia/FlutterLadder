@@ -1,22 +1,22 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wanandroid_app/ext/string_ext.dart';
+import 'package:wanandroid_app/login/login_page.dart';
 
 class MainMyPage extends StatefulWidget {
   const MainMyPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return MainMyState();
+    return _MainMyState();
   }
 }
 
-class MainMyState extends State<MainMyPage> {
+class _MainMyState extends State<MainMyPage> {
   var _lightOpened = true;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: double.maxFinite,
       height: double.maxFinite,
       child: Column(
@@ -47,9 +47,15 @@ class MainMyState extends State<MainMyPage> {
                     size: 50,
                   ),
                 ),
-                const Text(
-                  "点我登录",
-                  style: TextStyle(fontSize: 25, color: Colors.white),
+                InkWell(
+                  child: const Text(
+                    "点我登录",
+                    style: TextStyle(fontSize: 25, color: Colors.white),
+                  ),
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const LoginPage()));
+                  },
                 ),
               ],
             ),

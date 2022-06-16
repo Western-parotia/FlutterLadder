@@ -1,19 +1,19 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:wanandroid_app/main_home_page.dart';
-import 'package:wanandroid_app/main_my_page.dart';
-import 'package:wanandroid_app/main_two_page.dart';
+
+import 'main_home_page.dart';
+import 'main_my_page.dart';
+import 'main_two_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return MainState();
+    return _MainState();
   }
 }
 
-class MainState extends State<MainPage> {
+class _MainState extends State<MainPage> {
   var _index = 0;
   final _tabs = const [MainHomePage(), MainTwoPage(), MainMyPage()];
 
