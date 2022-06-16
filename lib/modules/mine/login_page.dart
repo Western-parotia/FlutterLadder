@@ -172,7 +172,7 @@ class _LoginState extends State<_LoginWidget> {
   final _accountController = TextEditingController();
 
   void _login() async {
-    var res = await HttpClient.getDio().post(ApiPath.login,
+    var res = await DHttpClient.getDio().post(ApiPath.login,
         queryParameters: {"username": _account, "password": _pwd});
   }
 
