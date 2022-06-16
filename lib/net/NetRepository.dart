@@ -13,20 +13,6 @@ class BasicRepository {
   }
 }
 
-bool _checkResSuccess(
-    BasicRootModelT root, Function(int code, String msg)? onError) {
-  if (root.errorCode != NetCode.NET_SUCCESS) {
-    onError?.call(root.errorCode, root.errorMsg);
-    return false;
-  }
-  if (root.data == null) {
-    onError?.call(NetCode.NET_ERROR_DATA_NULl, "data null");
-    return false;
-  }
-
-  return true;
-}
-
 extension ListParseExt<T> on dynamic {
   List<T> formJson(T Function(dynamic) format) {
     List<T> l = [];
@@ -47,13 +33,21 @@ extension FutureExt on Future {
       try {
         if (value is BasicRootModel) {
           onError?.call(value.errorCode, value.errorMsg);
-          return;
-        }
-
-        //还没取出data，这里是 res
-        var root = BasicRootModelT.fromJsonT(value.data, (p0) => format(p0));
-        if (_checkResSuccess(root, onError)) {
-          onSuccess(root.data!);
+          return null;
+        } else {
+          var r = BasicRootModel.fromJson(value.data);
+          if (r.errorCode != NetCode.NET_SUCCESS) {
+            onError?.call(r.errorCode, r.errorMsg);
+          } else {
+            //还没取出data，这里是 res
+            var rt = BasicRootModelT.fromJsonT(value.data, (p0) => format(p0));
+            if (rt.data == null) {
+              onError?.call(NetCode.NET_ERROR_DATA_NULl, "data null");
+              return 0;
+            } else {
+              onSuccess(rt.data!);
+            }
+          }
         }
       } catch (e, s) {
         onError?.call(NetCode.NET_ERROR_PARSE, "$e,$s");
@@ -75,7 +69,6 @@ extension FutureExt on Future {
 }
 
 void main() {
-
   BasicRepository.post(ApiPath.login, {
     'username': "juzixs",
     'password': "123456",
