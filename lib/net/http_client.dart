@@ -80,11 +80,10 @@ class Result<T> {
         code = NetCode.NET_ERROR_REQUEST,
         errorDetail = detail;
 
-  String getUserMsg() {
-    String userMsg = "$code:";
+  static String getUserMsg(int code) {
+    String userMsg = "网络错误:$code";
     switch (code) {
       case NetCode.NET_ERROR_REQUEST:
-        userMsg += "请求失败";
         break;
       default:
         break;
@@ -126,7 +125,7 @@ extension FutureExt<T> on Future<Result<T>> {
       try {
         print("${value.code}=>${value.res}=>${value.errorDetail}");
         if (value.code != NetCode.NET_REQUEST_SUCCESS) {
-          onError?.call(value.code, value.getUserMsg());
+          onError?.call(value.code, Result.getUserMsg(value.code));
         } else {
           var r = BasicRootModel.fromJson(value.res);
           if (r.errorCode != NetCode.RES_DATA_SUCCESS) {
@@ -135,14 +134,17 @@ extension FutureExt<T> on Future<Result<T>> {
             //还没取出data，这里是 res
             var rt = BasicRootModelT.fromJsonT(value.res, (p0) => format(p0));
             if (rt.data == null) {
-              onError?.call(NetCode.RES_ERROR_DATA_NULL, "data null");
+              onError?.call(NetCode.RES_ERROR_DATA_NULL,
+                  Result.getUserMsg(NetCode.RES_ERROR_DATA_NULL));
             } else {
               onSuccess(rt.data!);
             }
           }
         }
       } catch (e, s) {
-        onError?.call(NetCode.RES_ERROR_PARSE, "$e,$s");
+        print("$e,$s");
+        onError?.call(NetCode.RES_ERROR_PARSE,
+            Result.getUserMsg(NetCode.RES_ERROR_PARSE));
       }
     });
   }
