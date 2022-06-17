@@ -45,7 +45,7 @@ class UserInfo {
 
   UserInfo({this.username});
 
-  UserInfo.formJson(dynamic json) {
+  UserInfo.formJson(Map json) {
     username = json['username'];
   }
 }
@@ -66,6 +66,7 @@ const basicJsonObj = '''{
   "errorCode": 99900,
   "errorMsg": "111"
 }''';
+
 const basicJsonList = '''{
   "data":["dog","cat","ostrich"],
   "errorCode": 99900,

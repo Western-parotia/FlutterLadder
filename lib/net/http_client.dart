@@ -105,7 +105,7 @@ extension _ListExt on List {
 /// 只能用于单层集合 {"data":[]}
 extension FutureExtList<T> on Future<Result<List<T>>> {
   /// format 是用于解析[x,x]的x
-  void thenList(T Function(dynamic map) format,
+  void thenList(T Function(dynamic obj) format,
       {required Function(List<T> t) onSuccess,
       Function(int code, String msg)? onError}) {
     thenObj((v) {

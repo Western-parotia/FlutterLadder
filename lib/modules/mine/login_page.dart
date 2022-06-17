@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:wanandroid_app/net/http_api.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:wanandroid_app/net/NetRepository.dart';
 import 'package:wanandroid_app/net/http_client.dart';
+import 'package:wanandroid_app/net/root_model.dart';
 
 import '../../global/images_path.dart';
 import '../../utils/log_utils.dart';
@@ -172,9 +174,12 @@ class _LoginState extends State<_LoginWidget> {
   final _formKey = GlobalKey<FormState>();
   final _accountController = TextEditingController();
 
-  void _login() async {
-    var res = await NetClient.getDio().post(WanAndroidApi.login,
-        queryParameters: {"username": _account, "password": _pwd});
+  void _login() {
+    WanAndroidRepository.login(_account, _pwd)
+        .thenObj((data) => UserInfo.formJson(data), onSuccess: (v) {},
+            onError: (e, s) {
+      Fluttertoast.showToast(msg: "s");
+    });
   }
 
   @override
