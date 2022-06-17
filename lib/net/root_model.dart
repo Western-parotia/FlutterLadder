@@ -1,9 +1,6 @@
 /// data : ""
 /// errorCode : 0
 /// errorMsg : ""
-
-
-
 class BasicRootModel {
   int errorCode;
   String errorMsg;
@@ -28,7 +25,7 @@ class BasicRootModelT<T> extends BasicRootModel {
       : data = jd['data'],
         super.fromJson(jd);
 
-  static BasicRootModelT<List<OBJ>> formJsonList<OBJ>(
+  static BasicRootModelT<List<OBJ>> fromJsonList<OBJ>(
       dynamic json, OBJ Function(dynamic) format) {
     return BasicRootModelT.fromJsonT(json, (elements) {
       List<OBJ> list = [];
@@ -40,22 +37,13 @@ class BasicRootModelT<T> extends BasicRootModel {
   }
 }
 
-class UserInfo {
-  String? username;
-
-  UserInfo({this.username});
-
-  UserInfo.formJson(Map json) {
-    username = json['username'];
-  }
-}
 
 class Animals {
   String? name;
 
   Animals({this.name});
 
-  Animals.formJson(dynamic str) {
+  Animals.fromJson(dynamic str) {
     name = str;
   }
 }

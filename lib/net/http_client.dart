@@ -114,6 +114,18 @@ extension FutureExtList<T> on Future<Result<List<T>>> {
       return d.formListJson((p0) => format(p0));
     }, onSuccess: onSuccess, onError: onError);
   }
+
+  void thenListSpecial(
+      dynamic Function(dynamic data) find, T Function(dynamic obj) format,
+      {required Function(List<T> t) onSuccess,
+      Function(int code, String msg)? onError}) {
+    thenObj((v) {
+      /// 这里的v 是 {"data":x} 中的x
+      var special = find(v);
+      var d = special as List;
+      return d.formListJson((p0) => format(p0));
+    }, onSuccess: onSuccess, onError: onError);
+  }
 }
 
 extension FutureExt<T> on Future<Result<T>> {

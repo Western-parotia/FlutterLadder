@@ -11,16 +11,16 @@ class NetCode {
 class WanAndroidApi {
   static const String _domain = "https://www.wanandroid.com";
 
-  static String combinationUrl(String path) {
+  static String _combinationUrl(String path) {
     return _domain + path;
   }
 
-  static String bannerJson = combinationUrl("/banner/json");
+  static String bannerJson = _combinationUrl("/banner/json");
 
-  static String topJson = combinationUrl("/article/top/json");
+  static String topJson = _combinationUrl("/article/top/json");
 
-  static String login = combinationUrl("/user/login");
+  static String login = _combinationUrl("/user/login");
 
   static String articleList(int page) =>
-      combinationUrl("/article/list/$page/json");
+      _combinationUrl("/article/list/$page/json");
 }
