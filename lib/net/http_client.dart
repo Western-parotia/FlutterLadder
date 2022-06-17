@@ -136,7 +136,6 @@ extension FutureExt<T> on Future<Result<T>> {
             var rt = BasicRootModelT.fromJsonT(value.res, (p0) => format(p0));
             if (rt.data == null) {
               onError?.call(NetCode.RES_ERROR_DATA_NULL, "data null");
-              return 0;
             } else {
               onSuccess(rt.data!);
             }
