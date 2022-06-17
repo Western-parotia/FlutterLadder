@@ -70,13 +70,18 @@ extension FutureExt on Future {
 }
 
 void main() {
-  BasicRepository.post(ApiPath.login, {
-    'username': "juzixs",
-    'password': "123456",
-  }).thenObj<UserInfo>((map) => UserInfo.formJson(map), onSuccess: (value) {
-    print("==1${value.username}");
-  }, onError: (e, s) {});
-
+  // BasicRepository.post(ApiPath.login, {
+  //   'username': "juzixs",
+  //   'password': "123456",
+  // }).thenObj<UserInfo>((map) => UserInfo.formJson(map), onSuccess: (value) {
+  //   print("==1${value.username}");
+  // }, onError: (e, s) {});
+  WanAndroidApi.login("juzixs", "123456")
+      .thenObj<UserInfo>((data) => UserInfo.formJson(data), onSuccess: (v) {
+    print("==1${v.username}");
+  }, onError: (e, s) {
+    print("==1$e $s");
+  });
   //
   // BasicRepository.post(ApiPath.login, {
   //   'username': "juzixs",
