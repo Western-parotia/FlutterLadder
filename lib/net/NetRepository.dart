@@ -13,8 +13,8 @@ class BasicRepository {
   }
 }
 
-extension ListParseExt<T> on dynamic {
-  List<T> formJson(T Function(dynamic) format) {
+extension ListExt on List {
+  List<T> formListJson<T>(T Function(dynamic) format) {
     List<T> l = [];
     for (var e in this) {
       l.add(format(e));
@@ -55,15 +55,16 @@ extension FutureExt on Future {
     });
   }
 
-  void thenList<T>(T Function(dynamic map) format, //单匀速解析器
+  void thenList<T>(T Function(dynamic map) format,
       {required Function(List<T> t) onSuccess,
       Function(int code, String msg)? onError}) {
     thenObj<List<T>>((v) {
-      return v.formJson((p0) => format(v));
+      var d = v as List;
+      return d.formListJson((p0) => format(v));
     }, onSuccess: onSuccess);
   }
 
-  void thenPageList<T>(T Function(dynamic map) format, //单匀速解析器
+  void thenPageList<T>(T Function(dynamic map) format,
       {required Function(List<T> t) onSuccess,
       Function(int code, String msg)? onError}) {}
 }
