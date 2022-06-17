@@ -8,6 +8,7 @@ import 'package:wanandroid_app/modules/home/model/article_model.dart';
 import 'package:wanandroid_app/modules/home/model/banner_model.dart';
 import 'package:wanandroid_app/modules/home/widget/article_item_widget.dart';
 import 'package:wanandroid_app/modules/home/widget/banner_widget.dart';
+import 'package:wanandroid_app/net/NetRepository.dart';
 
 import '../../net/http_api.dart';
 import '../../net/http_client.dart';
@@ -40,16 +41,12 @@ class _HomePageState extends State<HomePage>
 
   // 获取banner数据
   getBannerData() async {
-    try {
-      Response response =
-          await NetClient.getDio().get(WanAndroidApi.bannerJson);
-      _bannerList = response.data['data']
-          .map<BannerModel>((item) => BannerModel.fromJsonMapToModel(item))
-          .toList();
-      print('1---$_bannerList');
-    } catch (e) {
-      print(e);
-    }
+    WanAndroidRepository.getBanner().thenList<BannerModel>(
+        (map) => BannerModel.fromJsonMapToModel(map), onSuccess: (v) {
+      _bannerList = v;
+    }, onError: (e, s) {
+      print("$e,$s");
+    });
   }
 
   // 置顶文章

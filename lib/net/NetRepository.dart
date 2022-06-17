@@ -1,23 +1,34 @@
 import 'package:wanandroid_app/net/http_api.dart';
 import 'package:wanandroid_app/net/http_client.dart';
-import 'package:wanandroid_app/net/root_model.dart';
+
+import '../modules/home/model/banner_model.dart';
 
 void main() {
-  WanAndroidRepository.login("juzixs", "123456")
-      .thenObj<UserInfo>((data) => UserInfo.formJson(data), onSuccess: (v) {
-    print("==1${v.username}");
+  WanAndroidRepository.getBanner().thenList<BannerModel>(
+      (map) => BannerModel.fromJsonMapToModel(map), onSuccess: (list) {
+    print("==1$list");
   }, onError: (e, s) {
     print("==1$e $s");
   });
+
+  // WanAndroidRepository.login("juzixs", "123456")
+  //     .thenObj<UserInfo>((data) => UserInfo.formJson(data), onSuccess: (v) {
+  //   print("==1${v.username}");
+  // }, onError: (e, s) {
+  //   print("==1$e $s");
+  // });
 }
 
 /// 定义接口
 class WanAndroidRepository {
   static Future login(String userName, String password) async {
-    var res = await NetClient.postForm(WanAndroidApi.login, {
+    return await NetClient.postForm(WanAndroidApi.login, query: {
       'username': userName,
       'password': password,
     });
-    return res;
+  }
+
+  static Future getBanner() async {
+    return await NetClient.get(WanAndroidApi.bannerJson);
   }
 }

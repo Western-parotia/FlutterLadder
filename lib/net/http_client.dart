@@ -23,7 +23,7 @@ class NetClient {
     return _dio!;
   }
 
-  static Future postForm(String path, Map<String, dynamic> query) async {
+  static Future postForm(String path, {Map<String, dynamic>? query}) async {
     try {
       return await getDio().post(path,
           queryParameters: query,
@@ -34,7 +34,7 @@ class NetClient {
     }
   }
 
-  static Future get(String path, Map<String, dynamic> query) async {
+  static Future get(String path, {Map<String, dynamic>? query}) async {
     try {
       return await getDio().get(path, queryParameters: query);
     } catch (e, s) {
@@ -43,7 +43,7 @@ class NetClient {
     }
   }
 
-  static Future postJson(String path, Map<String, dynamic> query) async {
+  static Future postJson(String path, {Map<String, dynamic>? query}) async {
     try {
       return await getDio().post(path,
           queryParameters: query,
@@ -102,11 +102,13 @@ extension FutureExt on Future {
       Function(int code, String msg)? onError}) {
     thenObj<List<T>>((v) {
       var d = v as List;
-      return d.formListJson((p0) => format(v));
-    }, onSuccess: onSuccess);
+      return d.formListJson((p0) => format(p0));
+    }, onSuccess: onSuccess, onError: onError);
   }
 
   void thenPageList<T>(T Function(dynamic map) format,
       {required Function(List<T> t) onSuccess,
-      Function(int code, String msg)? onError}) {}
+      Function(int code, String msg)? onError}) {
+    ///todo
+  }
 }
