@@ -61,6 +61,8 @@ class NetClient {
   }
 }
 
+///用户在网络请求 Future中可以保存泛型类型，作为数据解析类型的类型限制
+///提供 tcp层的网络访问状况
 class Result<T> {
   final dynamic res;
   final int code;
@@ -101,19 +103,22 @@ extension _ListExt on List {
   }
 }
 
+/// 只能用于单层集合 {"data":[]}
 extension FutureExtList<T> on Future<Result<List<T>>> {
+  /// format 是用于解析[x,x]的x
   void thenList(T Function(dynamic map) format,
       {required Function(List<T> t) onSuccess,
       Function(int code, String msg)? onError}) {
     thenObj((v) {
+      /// 这里的v 是 {"data":[]} 中的[]
       var d = v as List;
       return d.formListJson((p0) => format(p0));
     }, onSuccess: onSuccess, onError: onError);
   }
 }
 
-/// 定义解析
 extension FutureExt<T> on Future<Result<T>> {
+  /// 这里的data 是 {"data":dynamic} 中的 dynamic
   void thenObj(T Function(dynamic data) format,
       {required Function(T t) onSuccess,
       Function(int code, String msg)? onError}) {

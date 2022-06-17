@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage>
   // 也可以创建独立处理请求viewModel做数据请求等
 
   // 获取banner数据
-  getBannerData() async {
+  getBannerData() {
     WanAndroidRepository.getBanner()
         .thenList((map) => BannerModel.fromJsonMapToModel(map), onSuccess: (v) {
       _bannerList = v;
@@ -53,6 +53,7 @@ class _HomePageState extends State<HomePage>
   getTopArticlesData() async {
     try {
       Response response = await NetClient.getDio().get(WanAndroidApi.topJson);
+
       _topArticleList = response.data['data']
           .res<ArticleModel>((item) => ArticleModel().fromJsonMapToModel(item))
           .toList();

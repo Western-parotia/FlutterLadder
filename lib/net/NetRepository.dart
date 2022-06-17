@@ -20,7 +20,7 @@ void main() {
   });
 }
 
-/// 定义接口
+/// 1.定义接口与返回值类型
 class WanAndroidRepository {
   static Future<Result<UserInfo>> login(
       String userName, String password) async {
