@@ -1,9 +1,11 @@
 class NetCode {
-  static const NET_SUCCESS = 0;
+  static const RES_DATA_SUCCESS = 0;
 
-  static const NET_ERROR_REQUEST = -9200; //网络访问错误
-  static const NET_ERROR_PARSE = -9201;
-  static const NET_ERROR_DATA_NULl = -9202;
+  static const NET_REQUEST_SUCCESS = -9000;
+
+  static const NET_ERROR_REQUEST = -8000; //网络访问错误
+  static const RES_ERROR_PARSE = -8001;
+  static const RES_ERROR_DATA_NULL = -8002;
 }
 
 class WanAndroidApi {

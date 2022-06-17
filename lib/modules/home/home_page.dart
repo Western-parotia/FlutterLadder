@@ -41,8 +41,8 @@ class _HomePageState extends State<HomePage>
 
   // 获取banner数据
   getBannerData() async {
-    WanAndroidRepository.getBanner().thenList<BannerModel>(
-        (map) => BannerModel.fromJsonMapToModel(map), onSuccess: (v) {
+    WanAndroidRepository.getBanner()
+        .thenList((map) => BannerModel.fromJsonMapToModel(map), onSuccess: (v) {
       _bannerList = v;
     }, onError: (e, s) {
       print("$e,$s");
@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage>
     try {
       Response response = await NetClient.getDio().get(WanAndroidApi.topJson);
       _topArticleList = response.data['data']
-          .map<ArticleModel>((item) => ArticleModel().fromJsonMapToModel(item))
+          .res<ArticleModel>((item) => ArticleModel().fromJsonMapToModel(item))
           .toList();
       print('2---$_topArticleList');
     } catch (e) {
@@ -68,7 +68,7 @@ class _HomePageState extends State<HomePage>
       Response response =
           await NetClient.getDio().get(WanAndroidApi.articleList(_page));
       List<ArticleModel> dataModelList = response.data['data']['datas']
-          .map<ArticleModel>((item) => ArticleModel().fromJsonMapToModel(item))
+          .res<ArticleModel>((item) => ArticleModel().fromJsonMapToModel(item))
           .toList();
       print('3---$dataModelList');
 
