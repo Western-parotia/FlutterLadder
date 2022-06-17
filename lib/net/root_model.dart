@@ -2,14 +2,7 @@
 /// errorCode : 0
 /// errorMsg : ""
 
-class NetCode {
-  static const NET_DEFAULT = -9000;
-  static const NET_SUCCESS = 0;
 
-  static const NET_ERROR = -9200;
-  static const NET_ERROR_PARSE = -9201;
-  static const NET_ERROR_DATA_NULl = -9202;
-}
 
 class BasicRootModel {
   int errorCode;

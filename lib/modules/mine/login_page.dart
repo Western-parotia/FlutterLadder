@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:wanandroid_app/net/http.dart';
+import 'package:wanandroid_app/net/http_api.dart';
+import 'package:wanandroid_app/net/http_client.dart';
 
 import '../../global/images_path.dart';
 import '../../utils/log_utils.dart';
@@ -172,7 +173,7 @@ class _LoginState extends State<_LoginWidget> {
   final _accountController = TextEditingController();
 
   void _login() async {
-    var res = await DHttpClient.getDio().post(ApiPath.login,
+    var res = await NetClient.getDio().post(WanAndroidApi.login,
         queryParameters: {"username": _account, "password": _pwd});
   }
 

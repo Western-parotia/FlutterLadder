@@ -9,7 +9,8 @@ import 'package:wanandroid_app/modules/home/model/banner_model.dart';
 import 'package:wanandroid_app/modules/home/widget/article_item_widget.dart';
 import 'package:wanandroid_app/modules/home/widget/banner_widget.dart';
 
-import '../../net/http.dart';
+import '../../net/http_api.dart';
+import '../../net/http_client.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -40,7 +41,8 @@ class _HomePageState extends State<HomePage>
   // 获取banner数据
   getBannerData() async {
     try {
-      Response response = await DHttpClient.getDio().get(ApiPath.login);
+      Response response =
+          await NetClient.getDio().get(WanAndroidApi.bannerJson);
       _bannerList = response.data['data']
           .map<BannerModel>((item) => BannerModel.fromJsonMapToModel(item))
           .toList();
@@ -53,7 +55,7 @@ class _HomePageState extends State<HomePage>
   // 置顶文章
   getTopArticlesData() async {
     try {
-      Response response = await DHttpClient.getDio().get(ApiPath.topJson);
+      Response response = await NetClient.getDio().get(WanAndroidApi.topJson);
       _topArticleList = response.data['data']
           .map<ArticleModel>((item) => ArticleModel().fromJsonMapToModel(item))
           .toList();
@@ -66,8 +68,8 @@ class _HomePageState extends State<HomePage>
   // 文章，目前不做分页加载
   getArticlesData() async {
     try {
-      Response response = await DHttpClient.getDio()
-          .get(ApiPath.combinationUrl("/article/list/$_page/json"));
+      Response response =
+          await NetClient.getDio().get(WanAndroidApi.articleList(_page));
       List<ArticleModel> dataModelList = response.data['data']['datas']
           .map<ArticleModel>((item) => ArticleModel().fromJsonMapToModel(item))
           .toList();
