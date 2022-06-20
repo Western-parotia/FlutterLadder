@@ -8,7 +8,7 @@ import 'package:wanandroid_app/modules/home/model/article_model.dart';
 import 'package:wanandroid_app/modules/home/model/banner_model.dart';
 import 'package:wanandroid_app/modules/home/widget/article_item_widget.dart';
 import 'package:wanandroid_app/modules/home/widget/banner_widget.dart';
-import 'package:wanandroid_app/net/NetRepository.dart';
+import 'package:wanandroid_app/net/net_repository.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

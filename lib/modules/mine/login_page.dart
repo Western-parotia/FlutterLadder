@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:wanandroid_app/net/NetRepository.dart';
+import 'package:wanandroid_app/net/net_repository.dart';
 
 import '../../global/images_path.dart';
 import '../../utils/log_utils.dart';

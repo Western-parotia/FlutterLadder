@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:wanandroid_app/net/root_model.dart';
 
-import 'NetRepository.dart';
 import 'http_api.dart';
+import 'net_repository.dart';
 
 class NetClient {
   static late final Dio? _dio;
