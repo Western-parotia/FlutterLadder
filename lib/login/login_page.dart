@@ -22,12 +22,15 @@ class _LoginState extends State<LoginPage> {
               width: double.infinity,
               height: 280,
               decoration: const BoxDecoration(color: Colors.lightBlueAccent, borderRadius: BorderRadius.vertical(bottom: Radius.circular(30)))),
-          Container(
-            margin: const EdgeInsets.only(left: 20, top: 40),
-            child: const Icon(
-              Icons.close,
-              size: 30,
-              color: Colors.white,
+          GestureDetector(
+            onTap: () {Navigator.of(context).pop();},
+            child: Container(
+              margin: const EdgeInsets.only(left: 20, top: 40),
+              child: const Icon(
+                Icons.close,
+                size: 30,
+                color: Colors.white,
+              ),
             ),
           ),
           Column(
