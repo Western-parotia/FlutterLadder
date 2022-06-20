@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:wanandroid_app/modules/mine/controller/login_controll.dart';
 import 'package:wanandroid_app/modules/mine/learn_items/state_manage_by_parent.dart';
 
 import '../../global/images_path.dart';
+import '../../utils/log_utils.dart';
 import 'learn_items/getx_simple.dart';
 import 'learn_items/state_manage_by_self.dart';
 import 'login_page.dart';
@@ -37,7 +40,9 @@ class _AccountPageState extends State<AccountPage> {
   }
 }
 
-class _HeaderWidget extends StatelessWidget {
+class _HeaderWidgetState extends State<_HeaderWidget> {
+  final LoginController loginController = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -49,20 +54,31 @@ class _HeaderWidget extends StatelessWidget {
         children: <Widget>[
           Hero(tag: "_logo", child: ClipOval(child: _logoElement())),
           Container(
-            padding: const EdgeInsets.only(top: 20),
-            child: InkWell(
-              onTap: () => _gotoLoginPage(context),
-              child: const Text(
-                "点击登录",
-                style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w800),
-              ),
-            ),
-          )
+              padding: const EdgeInsets.only(top: 20),
+              child: loginController.isLogin
+                  ? _hasLogin(context)
+                  : _unLogin(context))
         ],
       ),
+    );
+  }
+
+  Widget _unLogin(BuildContext context) {
+    return InkWell(
+      onTap: () => _gotoLoginPage(context),
+      child: const Text(
+        "点击登录",
+        style: TextStyle(
+            fontSize: 20, color: Colors.white, fontWeight: FontWeight.w800),
+      ),
+    );
+  }
+
+  Widget _hasLogin(BuildContext context) {
+    return Text(
+      loginController.userName,
+      style: const TextStyle(
+          fontSize: 20, color: Colors.white, fontWeight: FontWeight.w800),
     );
   }
 
@@ -71,8 +87,17 @@ class _HeaderWidget extends StatelessWidget {
     //    builder:(_) =>LoginWidget() ,
     // ));
     Navigator.of(context)
-        .push(MaterialPageRoute<void>(builder: (_) => const LoginPage()));
+        .push(MaterialPageRoute(builder: (_) => const LoginPage()))
+        .then((value) {
+      Log.i("==============$value");
+      setState(() {});
+    });
   }
+}
+
+class _HeaderWidget extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _HeaderWidgetState();
 }
 
 Widget _logoElement() {

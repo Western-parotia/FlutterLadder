@@ -2,10 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:wanandroid_app/net/NetRepository.dart';
 
 import '../../global/images_path.dart';
 import '../../utils/log_utils.dart';
+import 'controller/login_controll.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -124,7 +127,7 @@ class _LoginPageState extends State<LoginPage> {
                       InkWell(
                         onTap: () => {},
                         child:
-                        AssetsUtils.loadImageWH("logo_wechat.png", 40, 40),
+                            AssetsUtils.loadImageWH("logo_wechat.png", 40, 40),
                       ),
                       const SizedBox(
                         width: 100,
@@ -132,7 +135,7 @@ class _LoginPageState extends State<LoginPage> {
                       InkWell(
                         onTap: () => {},
                         child:
-                        AssetsUtils.loadImageWH("logo_weibo.png", 40, 40),
+                            AssetsUtils.loadImageWH("logo_weibo.png", 40, 40),
                       ),
                     ])
               ],
@@ -170,13 +173,25 @@ class _LoginState extends State<_LoginWidget> {
   var _pwd = "";
   var visiblePWD = true;
   final _formKey = GlobalKey<FormState>();
-  final _accountController = TextEditingController();
+  final _accountTextFieldController = TextEditingController();
+  final LoginController _userController = Get.find();
 
   void _login() {
-    WanAndroidRepository.login(_account, _pwd)
-        .offerSuccess(
-            (p0) => Fluttertoast.showToast(msg: "登录成功:${p0.username}"))
-        .offerError((code, msg) => Fluttertoast.showToast(msg: msg));
+    WanAndroidRepository.login(_account, _pwd).offerSuccess((p0) {
+      Fluttertoast.showToast(msg: "登录成功:${p0.username}");
+      _userController.loginIn(p0.username ?? "--");
+      Navigator.of(context).pop("登录成功");
+    }).offerError((code, msg) => Fluttertoast.showToast(msg: msg));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  void deactivate() {
+    super.deactivate();
   }
 
   @override
@@ -187,14 +202,13 @@ class _LoginState extends State<_LoginWidget> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           TextFormField(
-            controller: _accountController,
+            controller: _accountTextFieldController,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             onSaved: (text) {
               Log.i("onSaved :账号:$text");
               _account = text!;
             },
             validator: (text) {
-              Log.i("validator :账号:$text");
               return text!.trim().length >= 4 ? null : "账号最少4个字符";
             },
             keyboardType: TextInputType.visiblePassword,
@@ -205,7 +219,7 @@ class _LoginState extends State<_LoginWidget> {
                   const Icon(Icons.person, color: Colors.blue, size: 20),
               suffixIcon: InkWell(
                 onTap: () {
-                  _accountController.clear();
+                  _accountTextFieldController.clear();
                 },
                 child: const Icon(Icons.close, color: Colors.grey, size: 20),
               ),
@@ -217,7 +231,6 @@ class _LoginState extends State<_LoginWidget> {
                 _pwd = text!;
               },
               validator: (text) {
-                Log.i("validator :密码:$text");
                 final t = text!.trim();
                 return t.length >= 6 && t.length <= 18 ? null : "密码为6~18个字符";
               },
