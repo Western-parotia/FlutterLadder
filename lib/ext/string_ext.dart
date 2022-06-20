@@ -10,6 +10,9 @@ extension StringExt on String {
   }
 
   void toast(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(this)));
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(this),
+      duration: const Duration(seconds: 2),
+    ));
   }
 }
