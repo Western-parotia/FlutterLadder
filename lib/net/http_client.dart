@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:wanandroid_app/net/root_model.dart';
 
+import 'NetRepository.dart';
 import 'http_api.dart';
 
 class NetClient {
@@ -115,6 +116,16 @@ extension FutureExtList<T> on Future<Result<List<T>>> {
     }, onSuccess: onSuccess, onError: onError);
   }
 
+  DataBox<List<T>> thenListDataBox(T Function(dynamic data) format) {
+    DataBox<List<T>> box = DataBox();
+    thenList((data) => format(data),
+        onSuccess: (v) => box.sendSuccess(v),
+        onError: (e, s) => box.sendError(e, s));
+    return box;
+  }
+
+  /// 用户获取指定集合对象 {"data":{"aList":[],"bList":[]}}
+  ///
   void thenListSpecial(
       dynamic Function(dynamic data) find, T Function(dynamic obj) format,
       {required Function(List<T> t) onSuccess,
@@ -125,6 +136,17 @@ extension FutureExtList<T> on Future<Result<List<T>>> {
       var d = special as List;
       return d.formListJson((p0) => format(p0));
     }, onSuccess: onSuccess, onError: onError);
+  }
+
+  DataBox<List<T>> thenListSpecialDataBox(
+    dynamic Function(dynamic data) find,
+    T Function(dynamic obj) format,
+  ) {
+    DataBox<List<T>> box = DataBox();
+    thenListSpecial((data) => find(data), (obj) => format(obj),
+        onSuccess: (v) => box.sendSuccess(v),
+        onError: (e, s) => box.sendError(e, s));
+    return box;
   }
 }
 
@@ -159,5 +181,13 @@ extension FutureExt<T> on Future<Result<T>> {
             Result.getUserMsg(NetCode.RES_ERROR_PARSE));
       }
     });
+  }
+
+  DataBox<T> thenObjDataBox(T Function(dynamic data) format) {
+    DataBox<T> box = DataBox();
+    thenObj((data) => format(data),
+        onSuccess: (v) => box.sendSuccess(v),
+        onError: (e, s) => box.sendError(e, s));
+    return box;
   }
 }

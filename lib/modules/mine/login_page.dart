@@ -2,9 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:wanandroid_app/modules/mine/mode/userinfo_model.dart';
 import 'package:wanandroid_app/net/NetRepository.dart';
-import 'package:wanandroid_app/net/http_client.dart';
 
 import '../../global/images_path.dart';
 import '../../utils/log_utils.dart';
@@ -176,12 +174,9 @@ class _LoginState extends State<_LoginWidget> {
 
   void _login() {
     WanAndroidRepository.login(_account, _pwd)
-        .thenObj((data) => UserinfoModel.fromJson(data), onSuccess: (v) {
-      print("v:${v.username}");
-      Fluttertoast.showToast(msg: "登录成功:${v.username}");
-    }, onError: (e, s) {
-      Fluttertoast.showToast(msg: s);
-    });
+        .offerSuccess(
+            (p0) => Fluttertoast.showToast(msg: "登录成功:${p0.username}"))
+        .offerError((code, msg) => Fluttertoast.showToast(msg: msg));
   }
 
   @override

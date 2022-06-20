@@ -10,8 +10,6 @@ import 'package:wanandroid_app/modules/home/widget/article_item_widget.dart';
 import 'package:wanandroid_app/modules/home/widget/banner_widget.dart';
 import 'package:wanandroid_app/net/NetRepository.dart';
 
-import '../../net/http_client.dart';
-
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -41,51 +39,43 @@ class _HomePageState extends State<HomePage>
   // 也可以创建独立处理请求viewModel做数据请求等
 
   // 获取banner数据
-  getBannerData() async {
-    WanAndroidRepository.getBanner()
-        .thenList((map) => BannerModel.fromJsonMapToModel(map), onSuccess: (v) {
-      _bannerList = v;
+  getBannerData() {
+    WanAndroidRepository.getBanner().offerSuccess((p0) {
+      _bannerList = p0;
       _refreshController.refreshCompleted();
       setState(() {});
-    }, onError: (e, s) {
-      Fluttertoast.showToast(msg: s);
+    }).offerError((code, msg) {
+      Fluttertoast.showToast(msg: msg);
       _refreshController.refreshFailed();
       setState(() {});
     });
   }
 
   // 置顶文章
-  getTopArticlesData() async {
-    WanAndroidRepository.getTops().thenList(
-            (obj) => ArticleModel().fromJsonMapToModel(obj), onSuccess: (v) {
-      _topArticleList = v;
+  getTopArticlesData() {
+    WanAndroidRepository.getTops().offerSuccess((p0) {
+      _topArticleList = p0;
       setState(() {});
-    }, onError: (e, s) {
-      Fluttertoast.showToast(msg: s);
-    });
+    }).offerError((code, msg) => Fluttertoast.showToast(msg: msg));
   }
 
   // 文章，目前不做分页加载
-  getArticlesData() async {
-    WanAndroidRepository.getArticles(_page).thenListSpecial(
-            (data) => data["datas"],
-            (obj) => ArticleModel().fromJsonMapToModel(obj), onSuccess: (v) {
+  getArticlesData() {
+    WanAndroidRepository.getArticles(_page).offerSuccess((p0) {
       /// 分页加载
       if (_page == 0) {
         _articleList.clear();
-        _articleList = v;
+        _articleList = p0;
       } else {
-        _articleList.addAll(v);
+        _articleList.addAll(p0);
         _refreshController.loadComplete();
       }
       setState(() {});
-    }, onError: (e, s) {
-      Fluttertoast.showToast(msg: s);
-    });
+    }).offerError((code, msg) => Fluttertoast.showToast(msg: msg));
   }
 
   // 全部数据 可以全部请求请求完成之后刷新，也可以每个请求之后都刷新
-  refreshHomeData() async {
+  refreshHomeData() {
     getBannerData();
     getTopArticlesData();
     getArticlesData();
