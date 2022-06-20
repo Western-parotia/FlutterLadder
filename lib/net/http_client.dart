@@ -125,7 +125,6 @@ extension FutureExtList<T> on Future<Result<List<T>>> {
   }
 
   /// 用户获取指定集合对象 {"data":{"aList":[],"bList":[]}}
-  ///
   void thenListSpecial(
       dynamic Function(dynamic data) find, T Function(dynamic obj) format,
       {required Function(List<T> t) onSuccess,
