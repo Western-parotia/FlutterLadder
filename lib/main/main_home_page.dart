@@ -77,30 +77,32 @@ class _MainHomeState extends State<MainHomePage> {
         loadArticlesData();
       },
       child: CustomScrollView(slivers: [
-        Container(
-          height: 201,
-          child: _bannerList.isEmpty
-              ? Container()
-              : Swiper(
-                  loop: true,
-                  autoplay: true,
-                  autoplayDelay: 5000,
-                  pagination: const SwiperPagination(),
-                  //页码 ,默认剧中
-                  itemCount: _bannerList.length,
-                  itemBuilder: (ctx, index) {
-                    return InkWell(
-                        onTap: () {
-                          var banner = _bannerList[index];
-                          // 点击事件
-                        },
-                        child: CachedNetworkImage(
-                            imageUrl: _bannerList[index].imagePath,
-                            placeholder: (context, url) => const Center(child: CupertinoActivityIndicator()), //加载中控件
-                            errorWidget: (context, url, error) => const Icon(Icons.error),
-                            fit: BoxFit.fill));
-                  },
-                ),
+        SliverToBoxAdapter(
+          child: Container(
+            height: 201,
+            child: _bannerList.isEmpty
+                ? Container()
+                : Swiper(
+                    loop: true,
+                    autoplay: true,
+                    autoplayDelay: 5000,
+                    pagination: const SwiperPagination(),
+                    //页码 ,默认剧中
+                    itemCount: _bannerList.length,
+                    itemBuilder: (ctx, index) {
+                      return InkWell(
+                          onTap: () {
+                            var banner = _bannerList[index];
+                            // 点击事件
+                          },
+                          child: CachedNetworkImage(
+                              imageUrl: _bannerList[index].imagePath,
+                              placeholder: (context, url) => const Center(child: CupertinoActivityIndicator()), //加载中控件
+                              errorWidget: (context, url, error) => const Icon(Icons.error),
+                              fit: BoxFit.fill));
+                    },
+                  ),
+          ),
         ),
         SliverList(
           delegate: SliverChildBuilderDelegate(
