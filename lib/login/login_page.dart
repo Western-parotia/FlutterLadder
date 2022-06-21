@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wanandroid_app/ext/string_ext.dart';
+import 'package:wanandroid_app/ext/obj_ext.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -23,7 +23,9 @@ class _LoginState extends State<LoginPage> {
               height: 280,
               decoration: const BoxDecoration(color: Colors.lightBlueAccent, borderRadius: BorderRadius.vertical(bottom: Radius.circular(30)))),
           GestureDetector(
-            onTap: () {Navigator.of(context).pop();},
+            onTap: () {
+              Navigator.of(context).pop();
+            },
             child: Container(
               margin: const EdgeInsets.only(left: 20, top: 40),
               child: const Icon(

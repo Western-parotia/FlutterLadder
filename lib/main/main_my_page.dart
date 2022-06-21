@@ -1,5 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:wanandroid_app/ext/string_ext.dart';
+import 'package:wanandroid_app/ext/obj_ext.dart';
 import 'package:wanandroid_app/login/login_page.dart';
 
 class MainMyPage extends StatefulWidget {
@@ -26,10 +27,7 @@ class _MainMyState extends State<MainMyPage> {
             width: double.maxFinite,
             padding: const EdgeInsets.all(20),
             margin: const EdgeInsets.only(bottom: 20),
-            decoration: const BoxDecoration(
-                color: Colors.lightBlueAccent,
-                borderRadius:
-                    BorderRadius.vertical(bottom: Radius.circular(20))),
+            decoration: const BoxDecoration(color: Colors.lightBlueAccent, borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))),
             child: Column(
               children: [
                 Container(
@@ -53,16 +51,14 @@ class _MainMyState extends State<MainMyPage> {
                     style: TextStyle(fontSize: 25, color: Colors.white),
                   ),
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const LoginPage()));
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const LoginPage()));
                   },
                 ),
               ],
             ),
           ),
           _settingWidget(Icons.favorite_border, "收藏", Icons.chevron_right, () {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(const SnackBar(content: Text("111")));
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("111")));
           }),
           Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -90,8 +86,7 @@ class _MainMyState extends State<MainMyPage> {
               ],
             ),
           ),
-          _settingWidget(Icons.palette, "色彩主题", Icons.arrow_drop_down_rounded,
-              () {
+          _settingWidget(Icons.palette, "色彩主题", Icons.arrow_drop_down_rounded, () {
             "2222".toast(context);
           }),
           _settingWidget(Icons.settings, "设置", Icons.chevron_right, () {
@@ -105,8 +100,7 @@ class _MainMyState extends State<MainMyPage> {
     );
   }
 
-  Widget _settingWidget(IconData leftIcon, String text, IconData rightIcon,
-      GestureTapCallback onTap) {
+  Widget _settingWidget(IconData leftIcon, String text, IconData rightIcon, GestureTapCallback onTap) {
     return InkWell(
       onTap: onTap,
       child: Container(
