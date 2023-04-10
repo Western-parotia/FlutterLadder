@@ -15,8 +15,8 @@
 # 分支说明：
 
 * level1.1:
-  * PageView+BottomNavigationBar 搭建app页面框架
-  * 完成AccountPage（我的），涉及简单静态列表实现
+    * PageView+BottomNavigationBar 搭建app页面框架
+    * 完成AccountPage（我的），涉及简单静态列表实现
 * level1.2: 完成 LoginPage，涉及组件在容器内的自由摆放
 * level1.3:完成HomePage，开发一个信息流页面
 * level1.4:ProjectPage
@@ -25,22 +25,20 @@
 
 ```dart
 // 声明接口
-static DataBox<UserinfoModel> login
-(String userName, String password) {
-
-var result = NetClient.postForm<UserinfoModel>(WanAndroidApi.login, query: {
-  'username': userName,
-  'password': password,
-});return result.thenObjDataBox
-(
-(data) => UserinfoModel.fromJson(data));
+static DataBox<List<BannerModel>> getBanner() {
+return NetClient.get<List<BannerModel>>(WanAndroidApi.bannerJson)
+    .thenListDataBox((data) => BannerModel.fromJsonMapToModel(data));
 }
 //获取数据
-void _login() {
-WanAndroidRepository.login(_account, _pwd).offerSuccess((p0) {
-Fluttertoast.showToast(msg: "登录成功:${p0.username}");
-_userController.loginIn(p0.username ?? "--");
-Navigator.of(context).pop("登录成功");
-}).offerError((code, msg) => Fluttertoast.showToast(msg: msg));
+getBannerData() {
+  WanAndroidRepository.getBanner().offerSuccess((p0) {
+    _bannerList = p0;
+    _refreshController.refreshCompleted();
+    setState(() {});
+  }).offerError((code, msg) {
+    Fluttertoast.showToast(msg: msg);
+    _refreshController.refreshFailed();
+    setState(() {});
+  });
 }
 ```
