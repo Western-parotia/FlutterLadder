@@ -1,4 +1,6 @@
 # 介绍
+
+[//]: # 居中无效，有空再试()
 <div class="center-images">
 <img src="./doc/images/home.png" width="200" height="450"/>
 <img src="./doc/images/mine.png" width="200" height="450"/>
