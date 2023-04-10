@@ -1,6 +1,6 @@
 # 介绍
 
-<img src="./doc/images/home.png" width="200" height="200"/> <img src="./doc/images/home.png" width="200" height="200"/> <img src="./doc/images/home.png" width="200" height="200"/>
+<img src="./doc/images/home.png" width="200" height="450"/> <img src="./doc/images/mine.png" width="200" height="200"/> <img src="./doc/images/login.png" width="200" height="200"/>
 
 
 这是我结合「微精通」中提供的学习思路，设计的Flutter学习项目（接口内容由 wanandroid.com 提供，ui参考：）。
