@@ -62,5 +62,3 @@ ios/Runner.ipa
 .vscode/
 ios/Podfile
 ios/Podfile.lock
-
-ios/Flutter
