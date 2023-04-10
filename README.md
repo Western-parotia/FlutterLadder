@@ -1,12 +1,7 @@
 # 介绍
 
-[//]: # (![home]&#40;./doc/images/home.png&#41;![mine]&#40;./doc/images/mine.png&#41;![home]&#40;./doc/images/login.png&#41;)
+<img src="./doc/images/home.png" width="200" height="200"/> <img src="./doc/images/home.png" width="200" height="200"/> <img src="./doc/images/home.png" width="200" height="200"/>
 
-<figure class="half">
-<img src="./doc/images/home.png" width="150" height="450">
-<img src="./doc/images/home.png" width="150" height="450">
-<img src="./doc/images/home.png" width="150" height="450">
-</figure>
 
 这是我结合「微精通」中提供的学习思路，设计的Flutter学习项目（接口内容由 wanandroid.com 提供，ui参考：）。
 
